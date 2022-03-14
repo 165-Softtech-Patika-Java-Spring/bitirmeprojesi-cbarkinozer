@@ -9,29 +9,30 @@ kullanılarak yazılması ve isteğe bağlı olarak önyüzünün yazılması.
 > **Backend:**
 
 - Kullanıcıdan kullanıcı adı, şifre, isim, soy isim bilgilerini alarak sisteme kayıt yapılır.
-- Sisteme kayıtlı kullanıcılar market ürünlerinin veri girişini yapabilir.
-- Ürün türlerine göre KDV oranları değişiklik göstermektedir. Bu oranlar aşağıdaki tabloda
-belirtilmiştir. __**Zaman zaman KDV oranları değişiklik gösterebilmektedir.**__
+- Sisteme kayıtlı kullanıcılar market ürünlerinin veri girişini yapabilir. (security package)
+- Ürün türlerine göre KDV oranları değişiklik göstermektedir. Bu oranlar aşağıdaki tabloda (productType)
+belirtilmiştir.  
+- __**Zaman zaman KDV oranları değişiklik gösterebilmektedir.**__
 
 ![Image](https://www.linkpicture.com/q/Untitled_395.png)
 
 
 - Ürün için veri girişi yapacak kullanıcı; ürünün adı, ürünün türü ve vergisiz satış fiyatı alanlarını
-doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplanarak sisteme kaydedilir.
+doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplanarak sisteme kaydedilir. (taxFreePrice)
 > **Kurallar ve gereksinimler:**
-- Sisteme yeni kullanıcı tanımlanabilir, güncellenebilir ve silinebilir.
-- Sisteme yeni ürünler tanımlanabilir, güncellenebilir ve silinebilir.
-- Ürünlerin fiyatları güncellenebilir.
+- Sisteme yeni kullanıcı tanımlanabilir, güncellenebilir ve silinebilir. (save update delete)
+- Sisteme yeni ürünler tanımlanabilir, güncellenebilir ve silinebilir. (save update delete)
+- Ürünlerin fiyatları güncellenebilir. (updatePrice())
 - KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. Herhangi bir hata
-durumunda tüm işlemler geri alınmalıdır.
-- Tüm ürünler listelenebilmelidir.
-- Ürün türlerine göre ürünler listelenebilmelidir.
-- Belirli bir fiyat aralığındaki ürünler listelenebilmelidir.
-- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir.
+durumunda tüm işlemler geri alınmalıdır. (transactional)
+- Tüm ürünler listelenebilmelidir. (findAllProducts)
+- Ürün türlerine göre ürünler listelenebilmelidir. (findAllProductsByProductType)
+- Belirli bir fiyat aralığındaki ürünler listelenebilmelidir. (findByPriceInterval query)
+- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (findDetailsByProductType query)
 
 ![Image](https://www.linkpicture.com/q/22_57.png)
 
-> Validasyonlar:
+> Validasyonlar: 
 - Aynı kullanıcı adı ile kullanıcı tanımı yapılamaz.
 - Kullanıcı girişi kullanıcı adı & şifre kombinasyonu ile yapılır.
 - Ürün türü, fiyatı, adı gibi alanlar boş olamaz.
