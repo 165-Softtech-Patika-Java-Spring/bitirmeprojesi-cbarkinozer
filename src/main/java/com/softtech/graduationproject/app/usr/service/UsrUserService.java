@@ -4,6 +4,7 @@ import com.softtech.graduationproject.app.gen.enums.GenStatusType;
 import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.usr.converter.UsrUserMapper;
 import com.softtech.graduationproject.app.usr.dto.UsrUserDto;
+import com.softtech.graduationproject.app.usr.dto.UsrUserFindByIdRequestDto;
 import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
 import com.softtech.graduationproject.app.usr.dto.UsrUserUpdateRequestDto;
 import com.softtech.graduationproject.app.usr.entity.UsrUser;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,19 +33,21 @@ public class UsrUserService {
         return usrUserDtoList;
     }
 
-    public UsrUserDto findById(Long id) {
+    public UsrUserFindByIdRequestDto findById(Long id) {
 
         UsrUser usrUser = usrUserEntityService.getByIdWithControl(id);
 
-        UsrUserDto usrUserDto = UsrUserMapper.INSTANCE.convertToUsrUserDto(usrUser);
+        UsrUserFindByIdRequestDto usrUserFindByIdRequestDto = UsrUserMapper.INSTANCE
+                .convertToUsrUserFindByIdRequestDto(usrUser);
 
-        return usrUserDto;
+        return usrUserFindByIdRequestDto;
     }
 
     public UsrUserDto save(UsrUserSaveRequestDto usrUserSaveRequestDto){
 
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserSaveRequestDto);
 
+        usrUser.setStatusType(GenStatusType.ACTIVE);
         usrUser = usrUserEntityService.save(usrUser);
 
         UsrUserDto usrUserDto = UsrUserMapper.INSTANCE.convertToUsrUserDto(usrUser);
@@ -68,10 +72,20 @@ public class UsrUserService {
     private void controlIsUserExist(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
 
         Long id = usrUserUpdateRequestDto.getId();
+
         boolean isExist = usrUserEntityService.existsById(id);
+
         if (!isExist){
+
             throw new ItemNotFoundException(UsrErrorMessage.USER_NOT_FOUND);
         }
     }
 
+    public void cancel(Long id) {
+
+        UsrUser usrUser = usrUserEntityService.getByIdWithControl(id);
+
+        usrUser.setStatusType(GenStatusType.PASSIVE);
+        usrUserEntityService.save(usrUser);
+    }
 }

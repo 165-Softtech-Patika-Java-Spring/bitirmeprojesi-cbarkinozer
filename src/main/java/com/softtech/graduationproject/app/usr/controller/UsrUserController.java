@@ -2,6 +2,7 @@ package com.softtech.graduationproject.app.usr.controller;
 
 import com.softtech.graduationproject.app.gen.dto.RestResponse;
 import com.softtech.graduationproject.app.usr.dto.UsrUserDto;
+import com.softtech.graduationproject.app.usr.dto.UsrUserFindByIdRequestDto;
 import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
 import com.softtech.graduationproject.app.usr.dto.UsrUserUpdateRequestDto;
 import com.softtech.graduationproject.app.usr.service.UsrUserService;
@@ -19,7 +20,11 @@ public class UsrUserController {
 
     private final UsrUserService usrUserService;
 
-    @Operation(tags = "User Controller", description = "Gets all users.", summary = "All users")
+    @Operation(
+            tags = "User Controller",
+            description = "Gets all users (only actives).",
+            summary = "All users"
+    )
     @GetMapping
     public ResponseEntity findAll(){
 
@@ -28,16 +33,24 @@ public class UsrUserController {
         return ResponseEntity.ok(RestResponse.of(usrUserDtoList));
     }
 
-    @Operation(tags = "User Controller")
+    @Operation(
+            tags = "User Controller",
+            description = "Gets a user by id (even if it is passive).",
+            summary = "Get a user"
+    )
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable Long id){
 
-        UsrUserDto usrUserDto = usrUserService.findById(id);
+        UsrUserFindByIdRequestDto usrUserFindByIdRequestDto = usrUserService.findById(id);
 
-        return ResponseEntity.ok(RestResponse.of(usrUserDto));
+        return ResponseEntity.ok(RestResponse.of(usrUserFindByIdRequestDto));
     }
 
-    @Operation(tags="User Controller")
+    @Operation(
+            tags="User Controller",
+            description = "Saves a new user",
+            summary = "Save a user"
+    )
     @PostMapping("/save")
     public ResponseEntity save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
 
@@ -47,7 +60,11 @@ public class UsrUserController {
 
     }
 
-    @Operation(tags="User Controller")
+    @Operation(
+            tags="User Controller",
+            description = "Updates a user's name, surname, username, and password by id",
+            summary = "Update a user"
+    )
     @PutMapping("/update")
     public ResponseEntity update(UsrUserUpdateRequestDto usrUserUpdateRequestDto){
 
@@ -57,6 +74,17 @@ public class UsrUserController {
 
     }
 
-    //public cancel(){}
+    @Operation(
+            tags="User Controller",
+            description = "Deletes a user by canceling (setting the status type passive) by id",
+            summary = "Delete a user"
+    )
+    @PatchMapping("/cancel/{id}")
+    public ResponseEntity cancel(@PathVariable Long id){
+
+        usrUserService.cancel(id);
+
+        return ResponseEntity.ok(RestResponse.empty());
+    }
 
 }

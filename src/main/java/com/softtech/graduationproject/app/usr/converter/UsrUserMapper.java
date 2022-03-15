@@ -1,6 +1,7 @@
 package com.softtech.graduationproject.app.usr.converter;
 
 import com.softtech.graduationproject.app.usr.dto.UsrUserDto;
+import com.softtech.graduationproject.app.usr.dto.UsrUserFindByIdRequestDto;
 import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
 import com.softtech.graduationproject.app.usr.dto.UsrUserUpdateRequestDto;
 import com.softtech.graduationproject.app.usr.entity.UsrUser;
@@ -18,6 +19,8 @@ public interface UsrUserMapper {
     UsrUser convertToUsrUser(UsrUserSaveRequestDto usrUserSaveRequestDto);
 
     UsrUser convertToUsrUser(UsrUserUpdateRequestDto usrUserUpdateRequestDto);
+
+    UsrUserFindByIdRequestDto convertToUsrUserFindByIdRequestDto(UsrUser usrUser);
 
     List<UsrUserDto> convertToUsrUserDtoList(List<UsrUser> usrUserList);
 
