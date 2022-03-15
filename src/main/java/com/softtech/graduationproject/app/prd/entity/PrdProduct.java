@@ -1,5 +1,6 @@
 package com.softtech.graduationproject.app.prd.entity;
 
+import com.softtech.graduationproject.app.gen.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Table(name="PRD_PRODUCT")
-public class PrdProduct {
+public class PrdProduct extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "PrdProduct" , sequenceName = "PRD_PRODUCT_ID_SEQ")

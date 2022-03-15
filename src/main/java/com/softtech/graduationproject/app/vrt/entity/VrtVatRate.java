@@ -1,5 +1,6 @@
 package com.softtech.graduationproject.app.vrt.entity;
 
+import com.softtech.graduationproject.app.gen.entity.BaseEntity;
 import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name="VRT_VAT_RATE")
-public class VrtVatRate {
+public class VrtVatRate extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "VrtVatRate" , sequenceName = "VRT_VAT_RATE_ID_SEQ")
