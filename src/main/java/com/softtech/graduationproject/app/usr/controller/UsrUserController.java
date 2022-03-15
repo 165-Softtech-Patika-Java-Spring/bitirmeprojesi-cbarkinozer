@@ -22,8 +22,9 @@ public class UsrUserController {
 
     @Operation(
             tags = "User Controller",
-            description = "Gets all users (only actives).",
-            summary = "All users"
+            summary = "All users",
+            description = "Gets all users (only actives)."
+
     )
     @GetMapping
     public ResponseEntity findAll(){
@@ -35,8 +36,8 @@ public class UsrUserController {
 
     @Operation(
             tags = "User Controller",
-            description = "Gets a user by id (even if it is passive).",
-            summary = "Get a user"
+            summary = "Get a user",
+            description = "Gets a user by id (even if it is passive)."
     )
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable Long id){
@@ -48,8 +49,8 @@ public class UsrUserController {
 
     @Operation(
             tags="User Controller",
-            description = "Saves a new user",
-            summary = "Save a user"
+            summary = "Save a user",
+            description = "Saves a new user"
     )
     @PostMapping("/save")
     public ResponseEntity save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
@@ -62,8 +63,8 @@ public class UsrUserController {
 
     @Operation(
             tags="User Controller",
-            description = "Updates a user's name, surname, username, and password by id",
-            summary = "Update a user"
+            summary = "Update a user",
+            description = "Updates a user's name, surname, username, and password by id"
     )
     @PutMapping("/update")
     public ResponseEntity update(UsrUserUpdateRequestDto usrUserUpdateRequestDto){
@@ -76,8 +77,8 @@ public class UsrUserController {
 
     @Operation(
             tags="User Controller",
-            description = "Deletes a user by canceling (setting the status type passive) by id",
-            summary = "Delete a user"
+            summary = "Cancel a user",
+            description = "Deletes a user by canceling (setting the status type passive) by id"
     )
     @PatchMapping("/cancel/{id}")
     public ResponseEntity cancel(@PathVariable Long id){

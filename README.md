@@ -25,8 +25,8 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 - Ürünlerin fiyatları güncellenebilir. (updatePrice())
 - KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. Herhangi bir hata
 durumunda tüm işlemler geri alınmalıdır. (transactional)
-- Tüm ürünler listelenebilmelidir. (findAllProducts)
-- Ürün türlerine göre ürünler listelenebilmelidir. (findAllProductsByProductType)
+- Tüm ürünler listelenebilmelidir. (findAll)
+- Ürün türlerine göre ürünler listelenebilmelidir. (findAllByProductType)
 - Belirli bir fiyat aralığındaki ürünler listelenebilmelidir. (findByPriceInterval query)
 - Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (findDetailsByProductType query)
 
@@ -48,3 +48,15 @@ durumunda tüm işlemler geri alınmalıdır. (transactional)
 - Hatalı işlemler için doğru hata kodlarının dönüldüğünden emin olunuz.
 > Test:
 - Unit ve integration testleri yazınız. 
+
+### Explanation of the Design Decisions
+- Entity and controller design: [link]   
+- VatRate is hold on a table because I want the API's users to set wanted VAT rates for wanted products without
+changing the source code (for the other option creating an enum inside the Product table).  
+- I implemented soft delete(cancel) for Users table because users often comeback to apps after deleting their accounts
+and users data might be useful for data science(in the future).  
+- I implemented hard delete for VAT table because it is very small and it's data is unimportant.  
+- I implemented hard delete for Products because high product count expected (multiple products per user),
+therefore I wanted to decrease the storage and query time costs.  
+- I also added findAll and findById endpoints to the controllers even though they are not wanted,
+because I felt the need while using the api.  
