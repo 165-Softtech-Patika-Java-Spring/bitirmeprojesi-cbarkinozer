@@ -31,16 +31,19 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
      */
 
     public List<E> findAll(){
+
         return dao.findAll();
     }
 
     public Optional<E> findById(Long id){
+
         return dao.findById(id);
     }
 
     public E save(E entity){
 
         setAdditionalFields(entity);
+
         entity = dao.save(entity);
 
         return entity;
@@ -53,11 +56,13 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
         //Long currentCustomerId = getCurrentCustomerId();
 
         if (baseAdditionalFields == null){
+
             baseAdditionalFields = new BaseAdditionalFields();
             entity.setBaseAdditionalFields(baseAdditionalFields);
         }
 
         if (entity.getId() == null){
+
             baseAdditionalFields.setCreateDate(new Date());
             //baseAdditionalFields.setCreatedBy(currentCustomerId);
         }

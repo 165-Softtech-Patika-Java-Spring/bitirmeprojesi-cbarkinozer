@@ -3,6 +3,7 @@ package com.softtech.graduationproject.app.usr.controller;
 import com.softtech.graduationproject.app.gen.dto.RestResponse;
 import com.softtech.graduationproject.app.usr.dto.UsrUserDto;
 import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
+import com.softtech.graduationproject.app.usr.dto.UsrUserUpdateRequestDto;
 import com.softtech.graduationproject.app.usr.service.UsrUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class UsrUserController {
         return ResponseEntity.ok(RestResponse.of(usrUserDto));
     }
 
-    @Operation(tags="Account Controller")
+    @Operation(tags="User Controller")
     @PostMapping("/save")
     public ResponseEntity save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
 
@@ -46,7 +47,16 @@ public class UsrUserController {
 
     }
 
-    //public update(){}
+    @Operation(tags="User Controller")
+    @PutMapping("/update")
+    public ResponseEntity update(UsrUserUpdateRequestDto usrUserUpdateRequestDto){
+
+        UsrUserDto usrUserDto = usrUserService.update(usrUserUpdateRequestDto);
+
+        return ResponseEntity.ok(RestResponse.of(usrUserDto));
+
+    }
+
     //public cancel(){}
 
 }

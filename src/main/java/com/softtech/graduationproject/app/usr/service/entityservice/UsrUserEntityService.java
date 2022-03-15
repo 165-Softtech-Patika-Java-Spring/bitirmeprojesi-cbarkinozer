@@ -19,7 +19,17 @@ public class UsrUserEntityService extends BaseEntityService<UsrUser, UsrUserDao>
     }
 
     public List<UsrUser> findAllActiveUsrUserList(){
+
         return getDao().findAllByStatusType(GenStatusType.ACTIVE);
+    }
+
+    public UsrUser save(UsrUser usrUser){
+
+        usrUser.setStatusType(GenStatusType.ACTIVE);
+
+        usrUser = super.save(usrUser);
+
+        return usrUser;
     }
 
 }
