@@ -1,7 +1,9 @@
 package com.softtech.graduationproject.app.usr.service;
 
+import com.softtech.graduationproject.app.gen.enums.GenStatusType;
 import com.softtech.graduationproject.app.usr.converter.UsrUserMapper;
 import com.softtech.graduationproject.app.usr.dto.UsrUserDto;
+import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
 import com.softtech.graduationproject.app.usr.entity.UsrUser;
 import com.softtech.graduationproject.app.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,17 @@ public class UsrUserService {
         return usrUserDto;
     }
 
+    public UsrUserDto save(UsrUserSaveRequestDto usrUserSaveRequestDto){
 
+        UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserSaveRequestDto);
+
+        usrUser.setStatusType(GenStatusType.ACTIVE);
+
+        usrUser = usrUserEntityService.save(usrUser);
+
+        UsrUserDto usrUserDto = UsrUserMapper.INSTANCE.convertToUsrUserDto(usrUser);
+
+        return usrUserDto;
+    }
 
 }

@@ -2,14 +2,12 @@ package com.softtech.graduationproject.app.usr.controller;
 
 import com.softtech.graduationproject.app.gen.dto.RestResponse;
 import com.softtech.graduationproject.app.usr.dto.UsrUserDto;
+import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
 import com.softtech.graduationproject.app.usr.service.UsrUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,7 +36,16 @@ public class UsrUserController {
         return ResponseEntity.ok(RestResponse.of(usrUserDto));
     }
 
-    //public save(){}
+    @Operation(tags="Account Controller")
+    @PostMapping("/save")
+    public ResponseEntity save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
+
+        UsrUserDto usrUserDto = usrUserService.save(usrUserSaveRequestDto);
+
+        return ResponseEntity.ok(RestResponse.of(usrUserDto));
+
+    }
+
     //public update(){}
     //public cancel(){}
 
