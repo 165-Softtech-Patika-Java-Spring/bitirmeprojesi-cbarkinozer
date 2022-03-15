@@ -22,6 +22,6 @@ public class VrtVatRate {
     private VrtProductType productType;
 
     @Column(name="VAT_RATE",nullable = false)
-    private int vrtVatRate;
+    private int vatRate;
 
 }
