@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -38,6 +39,16 @@ public class PrdProductService {
         PrdProductDto prdProductDto = PrdProductMapper.INSTANCE.convertToPrdProductDto(prdProduct);
 
         return prdProductDto;
+    }
+
+    public List<PrdProductDto> listByPriceInterval(BigDecimal min, BigDecimal max) {
+
+        List<PrdProduct> prdProductList = prdProductEntityService.listByPriceInterval(min,max);
+
+        List<PrdProductDto> prdProductDtoList = PrdProductMapper.INSTANCE.convertToPrdProductDtoList(prdProductList);
+
+        return prdProductDtoList;
+
     }
 
     public PrdProductDto save(PrdProductSaveRequestDto prdProductSaveRequestDto) {
@@ -79,4 +90,6 @@ public class PrdProductService {
         PrdProduct prdProduct = prdProductEntityService.getByIdWithControl(id);
         prdProductEntityService.delete(prdProduct);
     }
+
+
 }

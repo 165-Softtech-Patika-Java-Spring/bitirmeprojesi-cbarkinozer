@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -45,6 +46,20 @@ public class PrdProductController {
         PrdProductDto prdProductDto = prdProductService.findById(id);
 
         return ResponseEntity.ok(RestResponse.of(prdProductDto));
+    }
+
+    @Operation(
+            tags = "Product Controller",
+            summary = "List products by price interval",
+            description = "Lists products in the range by given min and max."
+    )
+    @GetMapping("/list-by-price-interval")
+    public ResponseEntity<RestResponse<List<PrdProductDto>>> listByPriceInterval(@RequestParam BigDecimal min,
+                                                                                 @RequestParam BigDecimal max){
+
+        List<PrdProductDto> prdProductDtoList = prdProductService.listByPriceInterval(min,max);
+
+        return ResponseEntity.ok(RestResponse.of(prdProductDtoList));
     }
 
     @Operation(
