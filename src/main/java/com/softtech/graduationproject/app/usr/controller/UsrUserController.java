@@ -27,7 +27,7 @@ public class UsrUserController {
 
     )
     @GetMapping
-    public ResponseEntity findAll(){
+    public ResponseEntity<RestResponse<List<UsrUserDto>>> findAll(){
 
         List<UsrUserDto> usrUserDtoList = usrUserService.findAll();
 
@@ -40,7 +40,7 @@ public class UsrUserController {
             description = "Gets a user by id (even if it is passive)."
     )
     @GetMapping("/{id}")
-    public ResponseEntity findById(@PathVariable Long id){
+    public ResponseEntity<RestResponse<UsrUserFindByIdRequestDto>> findById(@PathVariable Long id){
 
         UsrUserFindByIdRequestDto usrUserFindByIdRequestDto = usrUserService.findById(id);
 
@@ -53,7 +53,7 @@ public class UsrUserController {
             description = "Saves a new user"
     )
     @PostMapping("/save")
-    public ResponseEntity save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
+    public ResponseEntity<RestResponse<UsrUserDto>> save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
 
         UsrUserDto usrUserDto = usrUserService.save(usrUserSaveRequestDto);
 
@@ -67,7 +67,7 @@ public class UsrUserController {
             description = "Updates a user's name, surname, username, and password by id"
     )
     @PutMapping("/update")
-    public ResponseEntity update(UsrUserUpdateRequestDto usrUserUpdateRequestDto){
+    public ResponseEntity<RestResponse<UsrUserDto>> update(UsrUserUpdateRequestDto usrUserUpdateRequestDto){
 
         UsrUserDto usrUserDto = usrUserService.update(usrUserUpdateRequestDto);
 
@@ -81,7 +81,7 @@ public class UsrUserController {
             description = "Deletes a user by canceling (setting the status type passive) by id"
     )
     @PatchMapping("/cancel/{id}")
-    public ResponseEntity cancel(@PathVariable Long id){
+    public ResponseEntity<RestResponse<?>> cancel(@PathVariable Long id){
 
         usrUserService.cancel(id);
 

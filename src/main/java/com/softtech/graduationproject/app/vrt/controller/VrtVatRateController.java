@@ -25,7 +25,7 @@ public class VrtVatRateController {
             description = "Gets all VAT rates."
     )
     @GetMapping
-    public ResponseEntity findAll(){
+    public ResponseEntity<RestResponse<List<VrtVatRateDto>>> findAll(){
 
         List<VrtVatRateDto> vrtVatRateDtoList = vrtVatRateService.findAll();
 
@@ -39,11 +39,11 @@ public class VrtVatRateController {
             description = "Saves a VAT rate."
     )
     @PostMapping("/save")
-    public ResponseEntity save(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){
+    public ResponseEntity<RestResponse<VrtVatRateDto>> save(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){
 
         VrtVatRateDto vrtVatRateDto = vrtVatRateService.save(vrtVatRateSaveRequestDto);
 
-        return ResponseEntity.ok(RestResponse.of(vrtVatRateSaveRequestDto));
+        return ResponseEntity.ok(RestResponse.of(vrtVatRateDto));
     }
 
 
@@ -53,7 +53,7 @@ public class VrtVatRateController {
             description = "Updates a VAT RATE."
     )
     @PutMapping("/update")
-    public ResponseEntity update(VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto){
+    public ResponseEntity<RestResponse<VrtVatRateDto>> update(VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto){
 
         VrtVatRateDto vrtVatRateDto = vrtVatRateService.update(vrtVatRateUpdateRequestDto);
 
@@ -68,7 +68,7 @@ public class VrtVatRateController {
             description = "Deletes a VAT RATE."
     )
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
+    public ResponseEntity<RestResponse<?>> delete(@PathVariable Long id){
 
         vrtVatRateService.delete(id);
 
