@@ -3,6 +3,7 @@ package com.softtech.graduationproject.app.prd.controller;
 import com.softtech.graduationproject.app.gen.dto.RestResponse;
 import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
+import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
 import com.softtech.graduationproject.app.prd.service.PrdProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -59,12 +60,34 @@ public class PrdProductController {
         return ResponseEntity.ok(RestResponse.of(prdProductDto));
     }
 
+    @Operation(
+            tags="Product Controller",
+            summary = "Update a product",
+            description = "Updates a user's name and VAT-free price by id."
+    )
+    @PutMapping("/update")
+    public ResponseEntity<RestResponse<PrdProductDto>> update(PrdProductUpdateRequestDto prdProductUpdateRequestDto){
+
+        PrdProductDto prdProductDto = prdProductService.update(prdProductUpdateRequestDto);
+
+        return ResponseEntity.ok(RestResponse.of(prdProductDto));
+    }
+
+    @Operation(
+            tags="Product Controller",
+            summary = "Delete a Product",
+            description = "Deletes a Product."
+    )
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<RestResponse<?>> delete(@PathVariable Long id){
+
+        prdProductService.delete(id);
+
+        return ResponseEntity.ok(RestResponse.empty());
+    }
 
 
     /*
-update
-delete
-updatePrice
 findAllByProductType
 findByPriceInterval (query)
 findDetailsByProductType (query)
