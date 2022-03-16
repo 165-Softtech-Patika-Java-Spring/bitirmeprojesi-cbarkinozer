@@ -22,7 +22,13 @@ public class VrtVatRateController {
     @Operation(
             tags = "VAT Rate Controller",
             summary = "All VAT rates",
-            description = "Gets all VAT rates."
+            description = "Gets all VAT rates." +
+                    "    FOOD\n" +
+                    "    STATIONARY\n" +
+                    "    CLOTHING\n" +
+                    "    TECHNOLOGY\n" +
+                    "    CLEANING\n" +
+                    "    OTHER"
     )
     @GetMapping
     public ResponseEntity<RestResponse<List<VrtVatRateDto>>> findAll(){

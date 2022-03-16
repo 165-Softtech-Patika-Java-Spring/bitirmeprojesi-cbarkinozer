@@ -104,7 +104,6 @@ public class PrdProductController {
 
     /*
 findAllByProductType
-findByPriceInterval (query)
 findDetailsByProductType (query)
     * */
 }

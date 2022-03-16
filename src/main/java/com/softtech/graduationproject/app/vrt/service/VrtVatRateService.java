@@ -1,12 +1,10 @@
 package com.softtech.graduationproject.app.vrt.service;
 
-import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.vrt.converter.VrtVatRateMapper;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateSaveRequestDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateUpdateRequestDto;
 import com.softtech.graduationproject.app.vrt.entity.VrtVatRate;
-import com.softtech.graduationproject.app.vrt.enums.VrtErrorMessage;
 import com.softtech.graduationproject.app.vrt.service.entityservice.VrtVatRateEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,7 @@ import java.util.List;
 public class VrtVatRateService {
 
     private final VrtVatRateEntityService vrtVatRateEntityService;
+    private final VrtVatRateValidationService vrtVatRateValidationService;
 
     public List<VrtVatRateDto> findAll() {
 
@@ -35,6 +34,8 @@ public class VrtVatRateService {
 
         VrtVatRate vrtVatRate = VrtVatRateMapper.INSTANCE.convertToVrtVatRate(vrtVatRateSaveRequestDto);
 
+        vrtVatRateValidationService.controlIsVatRateNegative(vrtVatRate);
+
          vrtVatRate = vrtVatRateEntityService.save(vrtVatRate);
 
         VrtVatRateDto  vrtVatRateDto = VrtVatRateMapper.INSTANCE.convertToVrtVatRateDto(vrtVatRate);
@@ -46,9 +47,12 @@ public class VrtVatRateService {
     public VrtVatRateDto update(VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto) {
 
         Long id = vrtVatRateUpdateRequestDto.getId();
-        controlIsVrtVatRateExist(id);
+
+        vrtVatRateValidationService.controlIsVrtVatRateExist(id);
 
         VrtVatRate vrtVatRate = VrtVatRateMapper.INSTANCE.convertToVrtVatRate(vrtVatRateUpdateRequestDto);
+
+        vrtVatRateValidationService.controlIsVatRateNegative(vrtVatRate);
 
         vrtVatRate = vrtVatRateEntityService.save(vrtVatRate);
 
@@ -57,19 +61,11 @@ public class VrtVatRateService {
         return vrtVatRateDto;
     }
 
-    private void controlIsVrtVatRateExist(Long id){
-
-        boolean isExist = vrtVatRateEntityService.existsById(id);
-        if (!isExist){
-            throw new ItemNotFoundException(VrtErrorMessage.VAT_RATE_NOT_FOUND);
-        }
-
-    }
-
 
     public void delete(Long id) {
 
         VrtVatRate vrtVatRate = vrtVatRateEntityService.getByIdWithControl(id);
+
         vrtVatRateEntityService.delete(vrtVatRate);
 
     }

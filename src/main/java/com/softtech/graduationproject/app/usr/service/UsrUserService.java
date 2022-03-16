@@ -23,6 +23,7 @@ import java.util.List;
 public class UsrUserService {
 
     private final UsrUserEntityService usrUserEntityService;
+    private final UsrUserValidationService usrUserValidationService;
 
     public List<UsrUserDto> findAll() {
 
@@ -47,6 +48,8 @@ public class UsrUserService {
 
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserSaveRequestDto);
 
+        usrUserValidationService.controlIsUsernameUnique(usrUser);
+
         usrUser.setStatusType(GenStatusType.ACTIVE);
         usrUser = usrUserEntityService.save(usrUser);
 
@@ -57,9 +60,11 @@ public class UsrUserService {
 
     public UsrUserDto update(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
 
-        controlIsUserExist(usrUserUpdateRequestDto);
+        usrUserValidationService.controlIsUserExist(usrUserUpdateRequestDto);
 
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserUpdateRequestDto);
+
+        usrUserValidationService.controlIsUsernameUnique(usrUser);
 
         usrUser = usrUserEntityService.save(usrUser);
 
@@ -69,17 +74,6 @@ public class UsrUserService {
 
     }
 
-    private void controlIsUserExist(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
-
-        Long id = usrUserUpdateRequestDto.getId();
-
-        boolean isExist = usrUserEntityService.existsById(id);
-
-        if (!isExist){
-
-            throw new ItemNotFoundException(UsrErrorMessage.USER_NOT_FOUND);
-        }
-    }
 
     public void cancel(Long id) {
 

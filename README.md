@@ -26,8 +26,8 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 - KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. Herhangi bir hata
 durumunda tüm işlemler geri alınmalıdır. (transactional)
 - Tüm ürünler listelenebilmelidir. (findAll)
+- Belirli bir fiyat aralığındaki ürünler listelenebilmelidir. (findByPriceInterval)
 - Ürün türlerine göre ürünler listelenebilmelidir. (findAllByProductType)
-- Belirli bir fiyat aralığındaki ürünler listelenebilmelidir. (findByPriceInterval query)
 - Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (findDetailsByProductType query)
 
 ![Image](https://www.linkpicture.com/q/22_57.png)
