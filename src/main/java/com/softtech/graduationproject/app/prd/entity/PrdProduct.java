@@ -30,4 +30,7 @@ public class PrdProduct extends BaseEntity {
     @Column(name="VAT_FREE_PRICE", precision = 19, scale = 2,nullable = false)
     private BigDecimal vatFreePrice;
 
+    @Column(name="PRICE", precision = 19, scale = 2,nullable = false)
+    private BigDecimal price;
+
 }

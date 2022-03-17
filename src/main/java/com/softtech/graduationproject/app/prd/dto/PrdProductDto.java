@@ -12,5 +12,5 @@ public class PrdProductDto {
     private Long usrUserId;
     private Long vrtVatRateId;
     private String name;
-    private BigDecimal vatFreePrice;
+    private BigDecimal price;
 }
