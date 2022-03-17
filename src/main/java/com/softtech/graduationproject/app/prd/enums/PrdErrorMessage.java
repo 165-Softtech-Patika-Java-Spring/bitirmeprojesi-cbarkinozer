@@ -5,6 +5,7 @@ import com.softtech.graduationproject.app.gen.enums.BaseErrorMessage;
 public enum PrdErrorMessage implements BaseErrorMessage {
 
     PRODUCT_NOT_FOUND("Product not found!"),
+    FIELD_CANNOT_BE_NULL("Some of the entered fields cannot be null!"),
     ;
 
     private String message;

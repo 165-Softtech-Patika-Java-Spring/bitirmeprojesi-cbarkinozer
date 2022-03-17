@@ -35,6 +35,7 @@ public class VrtVatRateService {
         VrtVatRate vrtVatRate = VrtVatRateMapper.INSTANCE.convertToVrtVatRate(vrtVatRateSaveRequestDto);
 
         vrtVatRateValidationService.controlIsVatRateNegative(vrtVatRate);
+        vrtVatRateValidationService.controlIsProductTypeUnique(vrtVatRate);
 
          vrtVatRate = vrtVatRateEntityService.save(vrtVatRate);
 
@@ -53,6 +54,7 @@ public class VrtVatRateService {
         VrtVatRate vrtVatRate = VrtVatRateMapper.INSTANCE.convertToVrtVatRate(vrtVatRateUpdateRequestDto);
 
         vrtVatRateValidationService.controlIsVatRateNegative(vrtVatRate);
+        vrtVatRateValidationService.controlIsProductTypeUnique(vrtVatRate);
 
         vrtVatRate = vrtVatRateEntityService.save(vrtVatRate);
 

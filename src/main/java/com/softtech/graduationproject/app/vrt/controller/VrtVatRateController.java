@@ -22,13 +22,7 @@ public class VrtVatRateController {
     @Operation(
             tags = "VAT Rate Controller",
             summary = "All VAT rates",
-            description = "Gets all VAT rates." +
-                    "    FOOD\n" +
-                    "    STATIONARY\n" +
-                    "    CLOTHING\n" +
-                    "    TECHNOLOGY\n" +
-                    "    CLEANING\n" +
-                    "    OTHER"
+            description = "Gets all VAT rates."
     )
     @GetMapping
     public ResponseEntity<RestResponse<List<VrtVatRateDto>>> findAll(){
@@ -42,7 +36,7 @@ public class VrtVatRateController {
     @Operation(
             tags="VAT Rate Controller",
             summary = "Save a VAT rate",
-            description = "Saves a VAT rate."
+            description = "Saves a VAT rate. productType: FOOD, STATIONARY, CLOTHING, TECHNOLOGY, CLEANING, OTHER."
     )
     @PostMapping("/save")
     public ResponseEntity<RestResponse<VrtVatRateDto>> save(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){

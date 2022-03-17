@@ -21,6 +21,7 @@ import java.util.List;
 public class PrdProductService {
 
     private final PrdProductEntityService prdProductEntityService;
+    private final PrdProductValidationService prdProductValidationService;
 
     public List<PrdProductDto> findAll() {
 
@@ -41,6 +42,7 @@ public class PrdProductService {
         return prdProductDto;
     }
 
+
     public List<PrdProductDto> listByPriceInterval(BigDecimal min, BigDecimal max) {
 
         List<PrdProduct> prdProductList = prdProductEntityService.listByPriceInterval(min,max);
@@ -51,9 +53,12 @@ public class PrdProductService {
 
     }
 
+
     public PrdProductDto save(PrdProductSaveRequestDto prdProductSaveRequestDto) {
 
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductSaveRequestDto);
+
+        prdProductValidationService.controlAreFieldsNonNull(prdProduct);
 
         prdProduct = prdProductEntityService.save(prdProduct);
 
@@ -66,9 +71,11 @@ public class PrdProductService {
     public PrdProductDto update(PrdProductUpdateRequestDto prdProductUpdateRequestDto) {
 
         Long id = prdProductUpdateRequestDto.getId();
-        controlIsPrdProductExist(id);
+        prdProductValidationService.controlIsPrdProductExist(id);
 
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductUpdateRequestDto);
+
+        prdProductValidationService.controlAreFieldsNonNull(prdProduct);
 
         prdProduct = prdProductEntityService.save(prdProduct);
 
@@ -77,18 +84,13 @@ public class PrdProductService {
         return prdProductDto;
     }
 
-    private void controlIsPrdProductExist(Long id){
-
-        boolean isExist = prdProductEntityService.existsById(id);
-        if (!isExist){
-            throw new ItemNotFoundException(PrdErrorMessage.PRODUCT_NOT_FOUND);
-        }
-
-    }
 
     public void delete(Long id) {
+
         PrdProduct prdProduct = prdProductEntityService.getByIdWithControl(id);
+
         prdProductEntityService.delete(prdProduct);
+
     }
 
 

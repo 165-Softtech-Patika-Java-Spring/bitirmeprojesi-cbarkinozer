@@ -18,16 +18,16 @@ public class PrdProduct extends BaseEntity {
     @GeneratedValue(generator = "PrdProduct")
     private Long id;
 
-    @Column(name="ID_USR_USER",nullable = false)
+    @Column(name="ID_USR_USER",nullable = false,unique = true)
     private Long usrUserId;
 
-    @Column(name="ID_VRT_VAT_RATE",nullable = false)
+    @Column(name="ID_VRT_VAT_RATE",nullable = false,unique = true)
     private Long vrtVatRateId;
 
     @Column(name="NAME",length=100, nullable = false)
     private String name;
 
-    @Column(name="VAT_FREE_PRICE", precision = 19, scale = 2)
+    @Column(name="VAT_FREE_PRICE", precision = 19, scale = 2,nullable = false)
     private BigDecimal vatFreePrice;
 
 }
