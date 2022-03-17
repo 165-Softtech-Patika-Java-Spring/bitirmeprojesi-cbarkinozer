@@ -8,7 +8,10 @@ import com.softtech.graduationproject.app.usr.dto.UsrUserUpdateRequestDto;
 import com.softtech.graduationproject.app.usr.service.UsrUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,13 +56,36 @@ public class UsrUserController {
             description = "Saves a new user"
     )
     @PostMapping("/save")
-    public ResponseEntity<RestResponse<UsrUserDto>> save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
+    public ResponseEntity<RestResponse<MappingJacksonValue>> save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
 
         UsrUserDto usrUserDto = usrUserService.save(usrUserSaveRequestDto);
 
-        return ResponseEntity.ok(RestResponse.of(usrUserDto));
+        MappingJacksonValue mappingJacksonValue = createLinksForSave(usrUserDto);
+
+        return ResponseEntity.ok(RestResponse.of(mappingJacksonValue));
 
     }
+
+    public MappingJacksonValue createLinksForSave(UsrUserDto usrUserDto){
+
+        WebMvcLinkBuilder linkGet = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(
+                        this.getClass()).findById(usrUserDto.getId()));
+
+        WebMvcLinkBuilder linkDelete = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(
+                        this.getClass()).cancel(usrUserDto.getId()));
+
+        EntityModel<UsrUserDto> entityModel = EntityModel.of(usrUserDto);
+
+        entityModel.add(linkGet.withRel("find-by-id"));
+        entityModel.add(linkDelete.withRel("cancel"));
+
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(entityModel);
+
+        return mappingJacksonValue;
+    }
+
 
     @Operation(
             tags="User Controller",

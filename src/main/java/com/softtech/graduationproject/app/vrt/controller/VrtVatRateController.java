@@ -1,13 +1,17 @@
 package com.softtech.graduationproject.app.vrt.controller;
 
 import com.softtech.graduationproject.app.gen.dto.RestResponse;
+import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateSaveRequestDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateUpdateRequestDto;
 import com.softtech.graduationproject.app.vrt.service.VrtVatRateService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,11 +43,33 @@ public class VrtVatRateController {
             description = "Saves a VAT rate. productType: FOOD, STATIONARY, CLOTHING, TECHNOLOGY, CLEANING, OTHER."
     )
     @PostMapping("/save")
-    public ResponseEntity<RestResponse<VrtVatRateDto>> save(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){
+    public ResponseEntity<RestResponse<MappingJacksonValue>> save(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){
 
         VrtVatRateDto vrtVatRateDto = vrtVatRateService.save(vrtVatRateSaveRequestDto);
 
-        return ResponseEntity.ok(RestResponse.of(vrtVatRateDto));
+        MappingJacksonValue mappingJacksonValue = createLinksForSave(vrtVatRateDto);
+
+        return ResponseEntity.ok(RestResponse.of(mappingJacksonValue));
+    }
+
+    private MappingJacksonValue createLinksForSave (VrtVatRateDto vrtVatRateDto){
+
+        WebMvcLinkBuilder linkGet = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(
+                        this.getClass()).findAll());
+
+        WebMvcLinkBuilder linkDelete = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(
+                        this.getClass()).delete(vrtVatRateDto.getId()));
+
+        EntityModel<VrtVatRateDto> entityModel = EntityModel.of(vrtVatRateDto);
+
+        entityModel.add(linkGet.withRel("find-all"));
+        entityModel.add(linkDelete.withRel("delete"));
+
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(entityModel);
+
+        return mappingJacksonValue;
     }
 
 

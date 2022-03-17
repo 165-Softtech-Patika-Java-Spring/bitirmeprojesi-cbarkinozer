@@ -7,7 +7,10 @@ import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
 import com.softtech.graduationproject.app.prd.service.PrdProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -19,6 +22,7 @@ import java.util.List;
 public class PrdProductController {
 
     private final PrdProductService prdProductService;
+
 
     @Operation(
             tags="Product Controller",
@@ -48,6 +52,7 @@ public class PrdProductController {
         return ResponseEntity.ok(RestResponse.of(prdProductDto));
     }
 
+
     @Operation(
             tags = "Product Controller",
             summary = "List products by price interval",
@@ -62,18 +67,42 @@ public class PrdProductController {
         return ResponseEntity.ok(RestResponse.of(prdProductDtoList));
     }
 
+
     @Operation(
             tags="Product Controller",
             summary = "Save a product",
             description = "Saves a new product"
     )
     @PostMapping("/save")
-    public ResponseEntity<RestResponse<PrdProductDto>> save(@RequestBody PrdProductSaveRequestDto prdProductSaveRequestDto){
+    public ResponseEntity<RestResponse<MappingJacksonValue>> save(@RequestBody PrdProductSaveRequestDto prdProductSaveRequestDto){
 
         PrdProductDto prdProductDto = prdProductService.save(prdProductSaveRequestDto);
 
-        return ResponseEntity.ok(RestResponse.of(prdProductDto));
+        MappingJacksonValue mappingJacksonValue = createLinksForSave(prdProductDto);
+
+        return ResponseEntity.ok(RestResponse.of(mappingJacksonValue));
     }
+
+    private MappingJacksonValue createLinksForSave (PrdProductDto prdProductDto){
+
+        WebMvcLinkBuilder linkGet = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(
+                        this.getClass()).findById(prdProductDto.getId()));
+
+        WebMvcLinkBuilder linkDelete = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(
+                        this.getClass()).delete(prdProductDto.getId()));
+
+        EntityModel<PrdProductDto> entityModel = EntityModel.of(prdProductDto);
+
+        entityModel.add(linkGet.withRel("find-by-id"));
+        entityModel.add(linkDelete.withRel("delete"));
+
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(entityModel);
+
+        return mappingJacksonValue;
+    }
+
 
     @Operation(
             tags="Product Controller",
@@ -87,6 +116,7 @@ public class PrdProductController {
 
         return ResponseEntity.ok(RestResponse.of(prdProductDto));
     }
+
 
     @Operation(
             tags="Product Controller",
@@ -102,8 +132,4 @@ public class PrdProductController {
     }
 
 
-    /*
-findAllByProductType
-findDetailsByProductType (query)
-    * */
 }
