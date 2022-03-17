@@ -50,13 +50,21 @@ durumunda tüm işlemler geri alınmalıdır. (transactional)
 - Unit ve integration testleri yazınız. 
 
 ### Explanation of the Design Decisions
+
 - Entity and controller design: [link]   
+  
 - VatRate is hold on a table because I want the API's users to set wanted VAT rates for wanted products without
 changing the source code (for the other option creating an enum inside the Product table).  
+- If I stored the VAT-rate in the product table, I would have to store the VAT-rate for each product.  
+- It was not possible to change all of the VAT-rates of the registered products.  
+- In my implementation, 2 rates are stored. Price with and without VAT.  
+- If you update the product with its own values(without changing fields),
+- the current value is drawn from the VAT rate table and the new price gets calculated by VAT-free price.  
+  
 - I implemented soft delete(cancel) for Users table because users often comeback to apps after deleting their accounts
-and users data might be useful for data science(in the future).  
-- I implemented hard delete for VAT table because it is very small and it's data is unimportant.  
-- I implemented hard delete for Products because high product count expected (multiple products per user),
+and users data might be useful for data science(in the future).
+- I implemented hard delete for VAT table because it is very small and it's data is unimportant, and hard delete for Products because high product count expected (multiple products per user),
 therefore I wanted to decrease the storage and query time costs.  
+  
 - I also added findAll and findById endpoints to the controllers even though they are not wanted,
 because I felt the need while using the api.  
