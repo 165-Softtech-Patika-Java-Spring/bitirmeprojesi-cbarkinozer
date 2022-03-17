@@ -26,7 +26,7 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
 
     public List<PrdProduct> listByPriceInterval(BigDecimal min, BigDecimal max) {
 
-        List<PrdProduct> prdProductList = getDao().getAllByVatFreePriceBetween(min,max);
+        List<PrdProduct> prdProductList = getDao().getAllByPriceBetween(min,max);
 
         return prdProductList;
     }

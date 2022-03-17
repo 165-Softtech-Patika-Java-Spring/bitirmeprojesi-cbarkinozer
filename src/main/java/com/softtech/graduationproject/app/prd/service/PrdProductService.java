@@ -58,7 +58,8 @@ public class PrdProductService {
 
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductSaveRequestDto);
 
-        calculateAndSetPrice(prdProduct);
+        BigDecimal price = calculatePrice(prdProduct);
+        prdProduct.setPrice(price);
 
         prdProductValidationService.controlAreFieldsNonNull(prdProduct);
         prdProductValidationService.controlIsPricePositive(prdProduct);
@@ -78,7 +79,8 @@ public class PrdProductService {
 
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductUpdateRequestDto);
 
-        calculateAndSetPrice(prdProduct);
+        BigDecimal price = calculatePrice(prdProduct);
+        prdProduct.setPrice(price);
 
         prdProductValidationService.controlAreFieldsNonNull(prdProduct);
         prdProductValidationService.controlIsPricePositive(prdProduct);
@@ -90,8 +92,7 @@ public class PrdProductService {
         return prdProductDto;
     }
 
-
-    private void calculateAndSetPrice(PrdProduct prdProduct){
+    private BigDecimal calculatePrice(PrdProduct prdProduct){
 
         double vatRate = (double) prdProductEntityService.getVatRateByVatRateId(prdProduct);
 
@@ -100,7 +101,7 @@ public class PrdProductService {
 
         price = vatFreePrice.add(vatFreePrice.multiply(BigDecimal.valueOf(vatRate/100)));
 
-        prdProduct.setPrice(price);
+        return price;
     }
 
 
