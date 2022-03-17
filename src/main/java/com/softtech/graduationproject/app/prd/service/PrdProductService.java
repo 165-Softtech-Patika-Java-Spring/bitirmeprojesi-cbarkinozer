@@ -59,6 +59,7 @@ public class PrdProductService {
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductSaveRequestDto);
 
         prdProductValidationService.controlAreFieldsNonNull(prdProduct);
+        prdProductValidationService.controlIsPricePositive(prdProduct);
 
         prdProduct = prdProductEntityService.save(prdProduct);
 
@@ -76,6 +77,7 @@ public class PrdProductService {
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductUpdateRequestDto);
 
         prdProductValidationService.controlAreFieldsNonNull(prdProduct);
+        prdProductValidationService.controlIsPricePositive(prdProduct);
 
         prdProduct = prdProductEntityService.save(prdProduct);
 

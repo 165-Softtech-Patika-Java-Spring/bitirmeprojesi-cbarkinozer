@@ -9,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.math.BigDecimal;
 
 @Service
 @Transactional
@@ -41,6 +40,16 @@ public class PrdProductValidationService {
             throw new IllegalFieldException(PrdErrorMessage.FIELD_CANNOT_BE_NULL);
         }
     }
+
+
+    public void controlIsPricePositive(PrdProduct prdProduct){
+
+        if(prdProduct.getVatFreePrice().compareTo(BigDecimal.ZERO) < 1 ){
+
+            throw new IllegalFieldException(PrdErrorMessage.FIELD_IS_NOT_POSITIVE);
+        }
+    }
+
 
 
 }
