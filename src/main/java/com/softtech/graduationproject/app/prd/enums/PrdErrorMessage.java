@@ -6,7 +6,7 @@ public enum PrdErrorMessage implements BaseErrorMessage {
 
     PRODUCT_NOT_FOUND("Product not found!"),
     FIELD_CANNOT_BE_NULL("Entered field cannot be null!"),
-    FIELD_IS_NOT_POSITIVE("Entered field must be positive!")
+    FIELD_MUST_BE_POSITIVE("Entered field must be positive!")
     ;
 
     private String message;

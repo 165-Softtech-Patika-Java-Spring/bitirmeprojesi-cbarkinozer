@@ -46,7 +46,7 @@ public class PrdProductValidationService {
 
         if(prdProduct.getVatFreePrice().compareTo(BigDecimal.ZERO) < 1 ){
 
-            throw new IllegalFieldException(PrdErrorMessage.FIELD_IS_NOT_POSITIVE);
+            throw new IllegalFieldException(PrdErrorMessage.FIELD_MUST_BE_POSITIVE);
         }
     }
 
