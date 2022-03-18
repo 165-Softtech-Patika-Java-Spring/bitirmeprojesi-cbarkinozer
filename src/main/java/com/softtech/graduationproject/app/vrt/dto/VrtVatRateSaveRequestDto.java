@@ -7,6 +7,6 @@ import lombok.Data;
 public class VrtVatRateSaveRequestDto {
 
     private VrtProductType productType;
-    private int vatRate;
+    private Integer vatRate;
 
 }

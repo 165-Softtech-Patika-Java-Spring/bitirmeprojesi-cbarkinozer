@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class PrdVatRateDto {
 
-    Long id;
+    private Long id;
     private Integer vatRate;
 }

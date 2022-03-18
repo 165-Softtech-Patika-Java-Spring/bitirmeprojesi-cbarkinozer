@@ -8,6 +8,6 @@ public class VrtVatRateUpdateRequestDto {
 
     private Long id;
     private VrtProductType productType;
-    private int vatRate;
+    private Integer vatRate;
 
 }

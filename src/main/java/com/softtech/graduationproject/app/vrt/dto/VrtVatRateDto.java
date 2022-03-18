@@ -9,6 +9,6 @@ public class VrtVatRateDto {
 
     private Long id;
     private VrtProductType productType;
-    private int vatRate;
+    private Integer vatRate;
 
 }

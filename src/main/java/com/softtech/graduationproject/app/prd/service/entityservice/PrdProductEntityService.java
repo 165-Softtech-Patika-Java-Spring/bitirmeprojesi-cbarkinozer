@@ -41,7 +41,7 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public int getVatRateByVatRateId(PrdProduct prdProduct) {
+    public Integer getVatRateByVatRateId(PrdProduct prdProduct) {
 
         Long vatRateId = prdProduct.getVrtVatRateId();
 
@@ -49,7 +49,7 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
 
         controlIsVatRateExist(prdVatRateDto);
 
-        int vatRate = prdVatRateDto.getVatRate();
+        Integer vatRate = prdVatRateDto.getVatRate();
 
         return vatRate;
     }
