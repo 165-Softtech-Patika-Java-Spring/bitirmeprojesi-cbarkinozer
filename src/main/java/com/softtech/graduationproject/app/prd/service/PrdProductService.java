@@ -8,6 +8,9 @@ import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
 import com.softtech.graduationproject.app.prd.entity.PrdProduct;
 import com.softtech.graduationproject.app.prd.enums.PrdErrorMessage;
 import com.softtech.graduationproject.app.prd.service.entityservice.PrdProductEntityService;
+import com.softtech.graduationproject.app.vrt.entity.VrtVatRate;
+import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
+import com.softtech.graduationproject.app.vrt.service.entityservice.VrtVatRateEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,10 @@ import java.util.List;
 public class PrdProductService {
 
     private final PrdProductEntityService prdProductEntityService;
+    private final VrtVatRateEntityService vrtVatRateEntityService;
+
     private final PrdProductValidationService prdProductValidationService;
+
 
     public List<PrdProductDto> findAll() {
 
@@ -43,13 +49,28 @@ public class PrdProductService {
     }
 
 
-    public List<PrdProductDto> listByPriceInterval(BigDecimal min, BigDecimal max) {
+    public List<PrdProductDto> findByPriceInterval(BigDecimal min, BigDecimal max) {
 
-        List<PrdProduct> prdProductList = prdProductEntityService.listByPriceInterval(min,max);
+        List<PrdProduct> prdProductList = prdProductEntityService.findByPriceInterval(min,max);
 
         List<PrdProductDto> prdProductDtoList = PrdProductMapper.INSTANCE.convertToPrdProductDtoList(prdProductList);
 
         return prdProductDtoList;
+
+    }
+
+
+    public List<PrdProductDto> findByProductType(VrtProductType vrtProductType) {
+
+         VrtVatRate vrtVatRate = vrtVatRateEntityService.findByProductType(vrtProductType);
+
+         Long vrtVatRateId = vrtVatRate.getId();
+
+         List<PrdProduct> prdProductList = prdProductEntityService.findByVatRateId(vrtVatRateId);
+
+         List<PrdProductDto> prdProductDtoList = PrdProductMapper.INSTANCE.convertToPrdProductDtoList(prdProductList);
+
+         return prdProductDtoList;
 
     }
 
@@ -112,6 +133,7 @@ public class PrdProductService {
         prdProductEntityService.delete(prdProduct);
 
     }
+
 
 
 }

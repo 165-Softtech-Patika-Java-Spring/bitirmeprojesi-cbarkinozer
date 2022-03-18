@@ -14,7 +14,9 @@ import java.util.Optional;
 @Repository
 public interface PrdProductDao extends JpaRepository<PrdProduct,Long> {
 
-    List<PrdProduct> getAllByPriceBetween(BigDecimal min, BigDecimal max);
+    List<PrdProduct> findAllByPriceBetween(BigDecimal min, BigDecimal max);
+
+    List<PrdProduct> findAllByVrtVatRateId(Long vrtVatRateId);
 
     @Query(
             " select new com.softtech.graduationproject.app.prd.dto.PrdVatRateDto( " +

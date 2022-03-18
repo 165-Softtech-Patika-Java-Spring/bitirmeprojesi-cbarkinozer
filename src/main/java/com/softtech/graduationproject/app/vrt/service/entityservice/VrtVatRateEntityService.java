@@ -1,9 +1,11 @@
 package com.softtech.graduationproject.app.vrt.service.entityservice;
 
+import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.gen.service.BaseEntityService;
 import com.softtech.graduationproject.app.usr.entity.UsrUser;
 import com.softtech.graduationproject.app.vrt.dao.VrtVatRateDao;
 import com.softtech.graduationproject.app.vrt.entity.VrtVatRate;
+import com.softtech.graduationproject.app.vrt.enums.VrtErrorMessage;
 import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +21,20 @@ public class VrtVatRateEntityService extends BaseEntityService<VrtVatRate, VrtVa
         super(vrtVatRateDao);
     }
 
-    public Optional<VrtVatRate> findByProductType(VrtProductType vrtProductType){
+    public VrtVatRate findByProductType(VrtProductType vrtProductType){
 
-        Optional<VrtVatRate> optionalUsrUser = getDao().findByProductType(vrtProductType);
+        Optional<VrtVatRate> optionalVrtVatRate = getDao().findByProductType(vrtProductType);
 
-        return optionalUsrUser;
+        VrtVatRate vrtVatRate;
+        if(optionalVrtVatRate.isPresent()){
+
+            vrtVatRate = optionalVrtVatRate.get();
+
+        }else{
+            throw new ItemNotFoundException(VrtErrorMessage.VAT_RATE_NOT_FOUND);
+        }
+
+        return vrtVatRate;
     }
 
 }

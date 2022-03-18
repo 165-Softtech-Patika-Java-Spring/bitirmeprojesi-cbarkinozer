@@ -5,6 +5,7 @@ import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
 import com.softtech.graduationproject.app.prd.service.PrdProductService;
+import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
@@ -55,18 +56,30 @@ public class PrdProductController {
 
     @Operation(
             tags = "Product Controller",
-            summary = "List products by price interval",
-            description = "Lists products in the range by given min and max."
+            summary = "Get products by price interval",
+            description = "Gets products in the range by given min and max."
     )
-    @GetMapping("/list-by-price-interval")
-    public ResponseEntity<RestResponse<List<PrdProductDto>>> listByPriceInterval(@RequestParam BigDecimal min,
+    @GetMapping("/find-by-price-interval")
+    public ResponseEntity<RestResponse<List<PrdProductDto>>> findByPriceInterval(@RequestParam BigDecimal min,
                                                                                  @RequestParam BigDecimal max){
 
-        List<PrdProductDto> prdProductDtoList = prdProductService.listByPriceInterval(min,max);
+        List<PrdProductDto> prdProductDtoList = prdProductService.findByPriceInterval(min,max);
 
         return ResponseEntity.ok(RestResponse.of(prdProductDtoList));
     }
 
+    @Operation(
+            tags = "Product Controller",
+            summary = "Get products by product type",
+            description = "Gets all products by product type."
+    )
+    @GetMapping("/find-by-product-type")
+    public ResponseEntity<RestResponse<List<PrdProductDto>>> findByProductType(@RequestParam VrtProductType vrtProductType){
+
+        List<PrdProductDto> prdProductDtoList = prdProductService.findByProductType(vrtProductType);
+
+        return ResponseEntity.ok(RestResponse.of(prdProductDtoList));
+    }
 
     @Operation(
             tags="Product Controller",

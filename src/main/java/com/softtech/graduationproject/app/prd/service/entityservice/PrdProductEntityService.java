@@ -24,12 +24,21 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public List<PrdProduct> listByPriceInterval(BigDecimal min, BigDecimal max) {
+    public List<PrdProduct> findByPriceInterval(BigDecimal min, BigDecimal max) {
 
-        List<PrdProduct> prdProductList = getDao().getAllByPriceBetween(min,max);
+        List<PrdProduct> prdProductList = getDao().findAllByPriceBetween(min,max);
 
         return prdProductList;
     }
+
+
+    public List<PrdProduct> findByVatRateId(Long vrtVatRateId) {
+
+        List<PrdProduct> prdProductList = getDao().findAllByVrtVatRateId(vrtVatRateId);
+
+        return prdProductList;
+    }
+
 
     public int getVatRateByVatRateId(PrdProduct prdProduct) {
 
@@ -60,4 +69,6 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
         }
 
     }
+
+
 }

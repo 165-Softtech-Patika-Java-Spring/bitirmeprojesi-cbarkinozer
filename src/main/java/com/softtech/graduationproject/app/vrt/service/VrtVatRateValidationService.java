@@ -42,25 +42,18 @@ public class VrtVatRateValidationService {
 
         VrtProductType vrtProductType = vrtVatRate.getProductType();
 
-        Optional<VrtVatRate> vrtVatRateOptional = vrtVatRateEntityService.findByProductType(vrtProductType);
-        boolean didMatchedItself = didMatchedItself(vrtVatRateOptional, vrtVatRate);
+        VrtVatRate vrtVatRateReturned = vrtVatRateEntityService.findByProductType(vrtProductType);
+
+        boolean didMatchedItself = didMatchedItself(vrtVatRateReturned, vrtVatRate);
 
         if(!didMatchedItself){
             throw new ItemAlreadyExistsException(VrtErrorMessage.VAT_RATE_ALREADY_EXIST);
         }
-
     }
 
-    private Boolean didMatchedItself(Optional<VrtVatRate> optional, VrtVatRate ownEntity){
+    private Boolean didMatchedItself(VrtVatRate vrtVatRateReturned, VrtVatRate vrtVatRate){
 
-        VrtVatRate vrtVatRate;
-
-        if(optional.isPresent()){
-
-            vrtVatRate = optional.get();
-            return vrtVatRate.getId().equals(ownEntity.getId());
-
-        }else{return true;}
+        return vrtVatRateReturned.getId().equals(vrtVatRate.getId());
     }
 
 
