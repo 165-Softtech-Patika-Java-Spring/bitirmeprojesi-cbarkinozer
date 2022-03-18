@@ -19,20 +19,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+
     private final AuthenticationService authenticationService;
+
 
     @Operation(tags = "Authentication Controller")
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody SecLoginRequestDto secLoginRequestDto){
+    public ResponseEntity<RestResponse<String>> login(@RequestBody SecLoginRequestDto secLoginRequestDto){
 
         String token = authenticationService.login(secLoginRequestDto);
 
         return ResponseEntity.ok(RestResponse.of(token));
     }
 
+
     @Operation(tags = "Authentication Controller")
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
+    public ResponseEntity<RestResponse<UsrUserDto>> register(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
 
         UsrUserDto usrUserDto =authenticationService.register(usrUserSaveRequestDto);
 

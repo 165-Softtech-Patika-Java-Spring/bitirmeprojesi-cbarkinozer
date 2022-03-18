@@ -26,17 +26,10 @@ public class UsrUserEntityService extends BaseEntityService<UsrUser, UsrUserDao>
         return getDao().findAllByStatusType(GenStatusType.ACTIVE);
     }
 
-    public UsrUser findByUsername(String username){
+    public Optional<UsrUser> findByUsername(String username){
 
-        Optional<UsrUser> usrUserOptional = getDao().findByUsername(username);
+        return getDao().findByUsername(username);
 
-        UsrUser usrUser;
-        if(usrUserOptional.isPresent()){
-            usrUser = usrUserOptional.get();
-            return usrUser;
-        }else{
-            throw new ItemNotFoundException(UsrErrorMessage.USER_NOT_FOUND);
-        }
     }
 
 

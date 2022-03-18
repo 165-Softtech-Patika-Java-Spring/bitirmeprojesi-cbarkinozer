@@ -38,7 +38,7 @@ public class AuthenticationService {
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(
-                        secLoginRequestDto.getIdentityNo().toString(),
+                        secLoginRequestDto.getUsername(),
                         secLoginRequestDto.getPassword()
                 );
 

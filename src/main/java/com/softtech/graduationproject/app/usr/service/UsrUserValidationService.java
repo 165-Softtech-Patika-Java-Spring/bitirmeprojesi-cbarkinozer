@@ -7,6 +7,9 @@ import com.softtech.graduationproject.app.usr.dto.UsrUserUpdateRequestDto;
 import com.softtech.graduationproject.app.usr.entity.UsrUser;
 import com.softtech.graduationproject.app.usr.enums.UsrErrorMessage;
 import com.softtech.graduationproject.app.usr.service.entityservice.UsrUserEntityService;
+import com.softtech.graduationproject.app.vrt.entity.VrtVatRate;
+import com.softtech.graduationproject.app.vrt.enums.VrtErrorMessage;
+import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,13 +40,25 @@ public class UsrUserValidationService {
 
     public void controlIsUsernameUnique(UsrUser usrUser){
 
-        UsrUser usrUserReturned = usrUserEntityService.findByUsername(usrUser.getUsername());
+        Optional<UsrUser> usrUserOptional = usrUserEntityService.findByUsername(usrUser.getUsername());
 
-        boolean didMatchedItself = didMatchedItself(usrUserReturned, usrUser);
+        UsrUser usrUserReturned=null;
+        if(usrUserOptional.isPresent()){
 
-        if(!didMatchedItself){
-            throw new ItemAlreadyExistsException(UsrErrorMessage.USERNAME_ALREADY_EXIST);
+            usrUserReturned = usrUserOptional.get();
+
         }
+
+        if(usrUserReturned !=null){
+
+            boolean didMatchedItself = didMatchedItself(usrUserReturned, usrUser);
+
+            if(!didMatchedItself){
+                throw new ItemAlreadyExistsException(UsrErrorMessage.USERNAME_ALREADY_EXIST);
+            }
+
+        }
+
 
     }
 

@@ -1,6 +1,8 @@
 package com.softtech.graduationproject.app.sec.security;
 
+import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.usr.entity.UsrUser;
+import com.softtech.graduationproject.app.usr.enums.UsrErrorMessage;
 import com.softtech.graduationproject.app.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +19,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UsrUser usrUser = usrUserEntityService.findByUsername(username);
+        UsrUser usrUser = usrUserEntityService.findByUsername(username)
+                .orElseThrow(()-> new ItemNotFoundException(UsrErrorMessage.USER_NOT_FOUND));
 
         return JwtUserDetails.create(usrUser);
     }
