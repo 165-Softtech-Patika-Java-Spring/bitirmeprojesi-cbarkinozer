@@ -5,6 +5,7 @@ import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import lombok.Getter;
 import lombok.Setter;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -23,6 +24,6 @@ public class VrtVatRate extends BaseEntity {
     private VrtProductType productType;
 
     @Column(name="VAT_RATE",nullable = false)
-    private int vatRate;
+    private Integer vatRate;
 
 }

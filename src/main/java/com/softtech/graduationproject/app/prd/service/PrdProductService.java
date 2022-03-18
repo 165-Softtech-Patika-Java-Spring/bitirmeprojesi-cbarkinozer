@@ -2,6 +2,7 @@ package com.softtech.graduationproject.app.prd.service;
 
 import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.prd.converter.PrdProductMapper;
+import com.softtech.graduationproject.app.prd.dto.PrdProductAnalysisRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
@@ -72,6 +73,14 @@ public class PrdProductService {
 
          return prdProductDtoList;
 
+    }
+
+
+    public PrdProductAnalysisRequestDto getProductAnalysis() {
+
+        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = prdProductEntityService.getProductAnalysis();
+
+        return prdProductAnalysisRequestDto;
     }
 
 

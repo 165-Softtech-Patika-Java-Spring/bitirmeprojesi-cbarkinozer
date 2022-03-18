@@ -3,6 +3,7 @@ package com.softtech.graduationproject.app.prd.service.entityservice;
 import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.gen.service.BaseEntityService;
 import com.softtech.graduationproject.app.prd.dao.PrdProductDao;
+import com.softtech.graduationproject.app.prd.dto.PrdProductAnalysisRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdVatRateDto;
 import com.softtech.graduationproject.app.prd.entity.PrdProduct;
 import com.softtech.graduationproject.app.vrt.enums.VrtErrorMessage;
@@ -44,30 +45,30 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
 
         Long vatRateId = prdProduct.getVrtVatRateId();
 
-        Optional<PrdVatRateDto> prdVatRateDtoOptional = getDao().getVatRateByVatRateId(vatRateId);
+        PrdVatRateDto prdVatRateDto = getDao().getVatRateByVatRateId(vatRateId);
 
-        PrdVatRateDto prdVatRateDto = controlIsVatRateExist(prdVatRateDtoOptional);
+        controlIsVatRateExist(prdVatRateDto);
 
         int vatRate = prdVatRateDto.getVatRate();
 
         return vatRate;
     }
 
-    private PrdVatRateDto controlIsVatRateExist(Optional<PrdVatRateDto> prdVatRateDtoOptional){
 
-        PrdVatRateDto prdVatRateDto;
+    private void controlIsVatRateExist(PrdVatRateDto prdVatRateDto){
 
-        if(prdVatRateDtoOptional.isPresent()){
-
-            prdVatRateDto = prdVatRateDtoOptional.get();
-
-            return prdVatRateDto;
-
-        }else{
+        if(prdVatRateDto.getVatRate() ==null) {
 
             throw new ItemNotFoundException(VrtErrorMessage.VAT_RATE_NOT_FOUND);
         }
+    }
 
+
+    public PrdProductAnalysisRequestDto getProductAnalysis() {
+
+        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = getDao().getProductAnalysis();
+
+        return prdProductAnalysisRequestDto;
     }
 
 

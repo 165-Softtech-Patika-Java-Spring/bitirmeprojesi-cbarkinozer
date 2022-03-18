@@ -1,6 +1,7 @@
 package com.softtech.graduationproject.app.prd.controller;
 
 import com.softtech.graduationproject.app.gen.dto.RestResponse;
+import com.softtech.graduationproject.app.prd.dto.PrdProductAnalysisRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
@@ -80,6 +81,22 @@ public class PrdProductController {
 
         return ResponseEntity.ok(RestResponse.of(prdProductDtoList));
     }
+
+
+    @Operation(
+            tags = "Product Controller",
+            summary = "Get an analysis about products.",
+            description = "Gets an analysis about product's minimum, maximum, and average prices, " +
+                    "count of products and VAT rate by product type."
+    )
+    @GetMapping("/get-product-analysis")
+    public ResponseEntity<RestResponse<PrdProductAnalysisRequestDto>> getProductAnalysis(){
+
+        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = prdProductService.getProductAnalysis();
+
+        return ResponseEntity.ok(RestResponse.of(prdProductAnalysisRequestDto));
+    }
+
 
     @Operation(
             tags="Product Controller",
