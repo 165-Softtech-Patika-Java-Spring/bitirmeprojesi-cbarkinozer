@@ -4,6 +4,7 @@ import com.softtech.graduationproject.app.gen.entity.BaseAdditionalFields;
 import com.softtech.graduationproject.app.gen.entity.BaseEntity;
 import com.softtech.graduationproject.app.gen.enums.GenErrorMessage;
 import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
+import com.softtech.graduationproject.app.sec.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -20,15 +21,15 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
 
     private final D dao;
 
-    //private AuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
-    /** Circular dependency*/
-    /*
+    /** To solve Circular dependency*/
+
     @Autowired
     public void setAuthenticationService(@Lazy AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
-     */
+
 
     public List<E> findAll(){
 
@@ -53,7 +54,7 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
 
         BaseAdditionalFields baseAdditionalFields = entity.getBaseAdditionalFields();
 
-        //Long currentCustomerId = getCurrentCustomerId();
+        Long currentCustomerId = getCurrentUserId();
 
         if (baseAdditionalFields == null){
 
@@ -64,11 +65,11 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
         if (entity.getId() == null){
 
             baseAdditionalFields.setCreateDate(new Date());
-            //baseAdditionalFields.setCreatedBy(currentCustomerId);
+            baseAdditionalFields.setCreatedBy(currentCustomerId);
         }
 
         baseAdditionalFields.setUpdateDate(new Date());
-        //baseAdditionalFields.setUpdatedBy(currentCustomerId);
+        baseAdditionalFields.setUpdatedBy(currentCustomerId);
     }
 
     public void delete(E entity){
@@ -97,11 +98,11 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
         return dao;
     }
 
-    /*
-    public Long getCurrentCustomerId() {
-        Long currentCustomerId = authenticationService.getCurrentCustomerId();
+
+    public Long getCurrentUserId() {
+        Long currentCustomerId = authenticationService.getCurrentUserId();
         return currentCustomerId;
     }
 
-     */
+
 }

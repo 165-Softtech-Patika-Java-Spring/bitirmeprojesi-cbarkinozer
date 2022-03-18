@@ -18,7 +18,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsrUserValidationService {
 
+
     private final UsrUserEntityService usrUserEntityService;
+
 
     public void controlIsUserExist(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
 
@@ -32,11 +34,12 @@ public class UsrUserValidationService {
         }
     }
 
+
     public void controlIsUsernameUnique(UsrUser usrUser){
 
-        Optional<UsrUser> userOptional = usrUserEntityService.findByUsername(usrUser.getUsername());
+        UsrUser usrUserReturned = usrUserEntityService.findByUsername(usrUser.getUsername());
 
-        boolean didMatchedItself = didMatchedItself(userOptional, usrUser);
+        boolean didMatchedItself = didMatchedItself(usrUserReturned, usrUser);
 
         if(!didMatchedItself){
             throw new ItemAlreadyExistsException(UsrErrorMessage.USERNAME_ALREADY_EXIST);
@@ -44,17 +47,10 @@ public class UsrUserValidationService {
 
     }
 
-    private Boolean didMatchedItself(Optional<UsrUser> optional, BaseEntity ownEntity){
 
-        BaseEntity entity;
+    private Boolean didMatchedItself(UsrUser usrUserReturned, BaseEntity usrUser){
 
-        if(optional.isPresent()) {
-
-            entity = optional.get();
-            return entity.getId().equals(ownEntity.getId());
-
-        }else{return true;}
-
+        return usrUserReturned.getId().equals(usrUser.getId());
     }
 
 
