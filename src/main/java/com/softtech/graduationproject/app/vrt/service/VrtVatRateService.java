@@ -20,7 +20,7 @@ public class VrtVatRateService {
     private final VrtVatRateEntityService vrtVatRateEntityService;
     private final VrtVatRateValidationService vrtVatRateValidationService;
 
-    public List<VrtVatRateDto> findAll() {
+    public List<VrtVatRateDto> findAllVatRates() {
 
         List<VrtVatRate> vrtVatRateList = vrtVatRateEntityService.findAll();
 
@@ -30,7 +30,7 @@ public class VrtVatRateService {
     }
 
 
-    public VrtVatRateDto save(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto) {
+    public VrtVatRateDto saveVatRate(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto) {
 
         VrtVatRate vrtVatRate = VrtVatRateMapper.INSTANCE.convertToVrtVatRate(vrtVatRateSaveRequestDto);
 
@@ -45,7 +45,7 @@ public class VrtVatRateService {
     }
 
 
-    public VrtVatRateDto update(VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto) {
+    public VrtVatRateDto updateVatRate(VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto) {
 
         Long id = vrtVatRateUpdateRequestDto.getId();
 
@@ -64,7 +64,7 @@ public class VrtVatRateService {
     }
 
 
-    public void delete(Long id) {
+    public void deleteVatRate(Long id) {
 
         VrtVatRate vrtVatRate = vrtVatRateEntityService.getByIdWithControl(id);
 

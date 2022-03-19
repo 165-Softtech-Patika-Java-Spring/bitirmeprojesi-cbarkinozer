@@ -29,7 +29,7 @@ public class AuthenticationService {
 
     public UsrUserDto register(UsrUserSaveRequestDto usrUserSaveRequestDto) {
 
-        UsrUserDto usrUserDto = usrUserService.save(usrUserSaveRequestDto);
+        UsrUserDto usrUserDto = usrUserService.saveUser(usrUserSaveRequestDto);
 
         return usrUserDto;
     }

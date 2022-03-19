@@ -1,7 +1,6 @@
 package com.softtech.graduationproject.app.vrt.controller;
 
 import com.softtech.graduationproject.app.gen.dto.RestResponse;
-import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateSaveRequestDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateUpdateRequestDto;
@@ -29,9 +28,9 @@ public class VrtVatRateController {
             description = "Gets all VAT rates."
     )
     @GetMapping
-    public ResponseEntity<RestResponse<List<VrtVatRateDto>>> findAll(){
+    public ResponseEntity<RestResponse<List<VrtVatRateDto>>> findAllVatRates(){
 
-        List<VrtVatRateDto> vrtVatRateDtoList = vrtVatRateService.findAll();
+        List<VrtVatRateDto> vrtVatRateDtoList = vrtVatRateService.findAllVatRates();
 
         return ResponseEntity.ok(RestResponse.of(vrtVatRateDtoList));
     }
@@ -42,10 +41,10 @@ public class VrtVatRateController {
             summary = "Save a VAT rate",
             description = "Saves a VAT rate. productType: FOOD, STATIONARY, CLOTHING, TECHNOLOGY, CLEANING, OTHER."
     )
-    @PostMapping("/save")
-    public ResponseEntity<RestResponse<MappingJacksonValue>> save(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){
+    @PostMapping("/save-vat-rate")
+    public ResponseEntity<RestResponse<MappingJacksonValue>> saveVatRate(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){
 
-        VrtVatRateDto vrtVatRateDto = vrtVatRateService.save(vrtVatRateSaveRequestDto);
+        VrtVatRateDto vrtVatRateDto = vrtVatRateService.saveVatRate(vrtVatRateSaveRequestDto);
 
         MappingJacksonValue mappingJacksonValue = createLinksForSave(vrtVatRateDto);
 
@@ -56,11 +55,11 @@ public class VrtVatRateController {
 
         WebMvcLinkBuilder linkGet = WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(
-                        this.getClass()).findAll());
+                        this.getClass()).findAllVatRates());
 
         WebMvcLinkBuilder linkDelete = WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(
-                        this.getClass()).delete(vrtVatRateDto.getId()));
+                        this.getClass()).deleteVatRate(vrtVatRateDto.getId()));
 
         EntityModel<VrtVatRateDto> entityModel = EntityModel.of(vrtVatRateDto);
 
@@ -78,10 +77,10 @@ public class VrtVatRateController {
             summary = "Update a VAT Rate",
             description = "Updates a VAT RATE."
     )
-    @PutMapping("/update")
-    public ResponseEntity<RestResponse<VrtVatRateDto>> update(VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto){
+    @PutMapping("/update-vat-rate")
+    public ResponseEntity<RestResponse<VrtVatRateDto>> updateVatRate(VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto){
 
-        VrtVatRateDto vrtVatRateDto = vrtVatRateService.update(vrtVatRateUpdateRequestDto);
+        VrtVatRateDto vrtVatRateDto = vrtVatRateService.updateVatRate(vrtVatRateUpdateRequestDto);
 
         return ResponseEntity.ok(RestResponse.of(vrtVatRateDto));
 
@@ -93,10 +92,10 @@ public class VrtVatRateController {
             summary = "Delete a VAT Rate",
             description = "Deletes a VAT RATE."
     )
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<RestResponse<?>> delete(@PathVariable Long id){
+    @DeleteMapping("/delete-vat-rate/{id}")
+    public ResponseEntity<RestResponse<?>> deleteVatRate(@PathVariable Long id){
 
-        vrtVatRateService.delete(id);
+        vrtVatRateService.deleteVatRate(id);
 
         return ResponseEntity.ok(RestResponse.empty());
     }

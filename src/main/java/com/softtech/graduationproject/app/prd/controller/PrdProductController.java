@@ -33,9 +33,9 @@ public class PrdProductController {
     )
 
     @GetMapping
-    public ResponseEntity<RestResponse<List<PrdProductDto>>> findAll(){
+    public ResponseEntity<RestResponse<List<PrdProductDto>>> findAllProducts(){
 
-        List<PrdProductDto> prdProductDtoList = prdProductService.findAll();
+        List<PrdProductDto> prdProductDtoList = prdProductService.findAllProducts();
 
         return ResponseEntity.ok(RestResponse.of(prdProductDtoList));
     }
@@ -47,9 +47,9 @@ public class PrdProductController {
             description = "Gets a product by id."
     )
     @GetMapping("/{id}")
-    public ResponseEntity<RestResponse<PrdProductDto>> findById(@PathVariable Long id){
+    public ResponseEntity<RestResponse<PrdProductDto>> findProductsById(@PathVariable Long id){
 
-        PrdProductDto prdProductDto = prdProductService.findById(id);
+        PrdProductDto prdProductDto = prdProductService.findProductById(id);
 
         return ResponseEntity.ok(RestResponse.of(prdProductDto));
     }
@@ -61,10 +61,10 @@ public class PrdProductController {
             description = "Gets products in the range by given min and max."
     )
     @GetMapping("/find-by-price-interval")
-    public ResponseEntity<RestResponse<List<PrdProductDto>>> findByPriceInterval(@RequestParam BigDecimal min,
+    public ResponseEntity<RestResponse<List<PrdProductDto>>> findProductsByPriceInterval(@RequestParam BigDecimal min,
                                                                                  @RequestParam BigDecimal max){
 
-        List<PrdProductDto> prdProductDtoList = prdProductService.findByPriceInterval(min,max);
+        List<PrdProductDto> prdProductDtoList = prdProductService.findProductsByPriceInterval(min,max);
 
         return ResponseEntity.ok(RestResponse.of(prdProductDtoList));
     }
@@ -75,9 +75,9 @@ public class PrdProductController {
             description = "Gets all products by product type."
     )
     @GetMapping("/find-by-product-type")
-    public ResponseEntity<RestResponse<List<PrdProductDto>>> findByProductType(@RequestParam VrtProductType vrtProductType){
+    public ResponseEntity<RestResponse<List<PrdProductDto>>> findProductsByProductType(@RequestParam VrtProductType vrtProductType){
 
-        List<PrdProductDto> prdProductDtoList = prdProductService.findByProductType(vrtProductType);
+        List<PrdProductDto> prdProductDtoList = prdProductService.findProductsByProductType(vrtProductType);
 
         return ResponseEntity.ok(RestResponse.of(prdProductDtoList));
     }
@@ -103,10 +103,10 @@ public class PrdProductController {
             summary = "Save a product",
             description = "Saves a new product"
     )
-    @PostMapping("/save")
-    public ResponseEntity<RestResponse<MappingJacksonValue>> save(@RequestBody PrdProductSaveRequestDto prdProductSaveRequestDto){
+    @PostMapping("/save-product")
+    public ResponseEntity<RestResponse<MappingJacksonValue>> saveProduct(@RequestBody PrdProductSaveRequestDto prdProductSaveRequestDto){
 
-        PrdProductDto prdProductDto = prdProductService.save(prdProductSaveRequestDto);
+        PrdProductDto prdProductDto = prdProductService.saveProduct(prdProductSaveRequestDto);
 
         MappingJacksonValue mappingJacksonValue = createLinksForSave(prdProductDto);
 
@@ -117,11 +117,11 @@ public class PrdProductController {
 
         WebMvcLinkBuilder linkGet = WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(
-                        this.getClass()).findById(prdProductDto.getId()));
+                        this.getClass()).findProductsById(prdProductDto.getId()));
 
         WebMvcLinkBuilder linkDelete = WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(
-                        this.getClass()).delete(prdProductDto.getId()));
+                        this.getClass()).deleteProduct(prdProductDto.getId()));
 
         EntityModel<PrdProductDto> entityModel = EntityModel.of(prdProductDto);
 
@@ -139,10 +139,10 @@ public class PrdProductController {
             summary = "Update a product",
             description = "Updates a user's name and VAT-free price by id."
     )
-    @PutMapping("/update")
-    public ResponseEntity<RestResponse<PrdProductDto>> update(PrdProductUpdateRequestDto prdProductUpdateRequestDto){
+    @PutMapping("/update-product")
+    public ResponseEntity<RestResponse<PrdProductDto>> updateProduct(PrdProductUpdateRequestDto prdProductUpdateRequestDto){
 
-        PrdProductDto prdProductDto = prdProductService.update(prdProductUpdateRequestDto);
+        PrdProductDto prdProductDto = prdProductService.updateProduct(prdProductUpdateRequestDto);
 
         return ResponseEntity.ok(RestResponse.of(prdProductDto));
     }
@@ -153,10 +153,10 @@ public class PrdProductController {
             summary = "Delete a Product",
             description = "Deletes a Product."
     )
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<RestResponse<?>> delete(@PathVariable Long id){
+    @DeleteMapping("/delete-product/{id}")
+    public ResponseEntity<RestResponse<?>> deleteProduct(@PathVariable Long id){
 
-        prdProductService.delete(id);
+        prdProductService.deleteProduct(id);
 
         return ResponseEntity.ok(RestResponse.empty());
     }

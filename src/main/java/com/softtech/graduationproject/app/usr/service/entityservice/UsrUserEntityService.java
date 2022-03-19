@@ -21,12 +21,12 @@ public class UsrUserEntityService extends BaseEntityService<UsrUser, UsrUserDao>
         super(usrUserDao);
     }
 
-    public List<UsrUser> findAllActiveUsrUserList(){
+    public List<UsrUser> findAllActiveUsers(){
 
         return getDao().findAllByStatusType(GenStatusType.ACTIVE);
     }
 
-    public Optional<UsrUser> findByUsername(String username){
+    public Optional<UsrUser> findUsersByUsername(String username){
 
         return getDao().findByUsername(username);
 

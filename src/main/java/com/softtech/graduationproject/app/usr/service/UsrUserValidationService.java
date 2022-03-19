@@ -40,7 +40,7 @@ public class UsrUserValidationService {
 
     public void controlIsUsernameUnique(UsrUser usrUser){
 
-        Optional<UsrUser> usrUserOptional = usrUserEntityService.findByUsername(usrUser.getUsername());
+        Optional<UsrUser> usrUserOptional = usrUserEntityService.findUsersByUsername(usrUser.getUsername());
 
         UsrUser usrUserReturned=null;
         if(usrUserOptional.isPresent()){

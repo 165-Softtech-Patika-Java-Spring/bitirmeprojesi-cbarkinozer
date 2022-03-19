@@ -9,7 +9,7 @@ kullanılarak yazılması ve isteğe bağlı olarak önyüzünün yazılması.
 > **Backend:**
 
 - Kullanıcıdan kullanıcı adı, şifre, isim, soy isim bilgilerini alarak sisteme kayıt yapılır.  ✓
-- Sisteme kayıtlı kullanıcılar market ürünlerinin veri girişini yapabilir. (security) *
+- Sisteme kayıtlı kullanıcılar market ürünlerinin veri girişini yapabilir. (security) ✓
 - Ürün türlerine göre KDV oranları değişiklik göstermektedir. Bu oranlar aşağıdaki tabloda (vatRate)
 belirtilmiştir.   ✓
 - __**Zaman zaman KDV oranları değişiklik gösterebilmektedir.**__
@@ -18,7 +18,7 @@ belirtilmiştir.   ✓
 
 
 - Ürün için veri girişi yapacak kullanıcı; ürünün adı, ürünün türü ve vergisiz satış fiyatı alanlarını
-doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplanarak sisteme kaydedilir. (calculatePrice) *
+doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplanarak sisteme kaydedilir. (calculatePrice) ✓*
 > **Kurallar ve gereksinimler:**
 - Sisteme yeni kullanıcı tanımlanabilir, güncellenebilir ve silinebilir. (save update delete) ✓
 - Sisteme yeni ürünler tanımlanabilir, güncellenebilir ve silinebilir. (save update delete) ✓
@@ -28,18 +28,18 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 - Tüm ürünler listelenebilmelidir. (findAllProducts) ✓
 - Belirli bir fiyat aralığındaki ürünler listelenebilmelidir. (findProductsByPriceInterval) ✓
 - Ürün türlerine göre ürünler listelenebilmelidir. (findProductsByProductType) ✓
-- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (productTypeAnalysis query) *
+- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (productAnalysis query) ✓*
 
 ![Image](https://www.linkpicture.com/q/22_57.png)
 
 > Validasyonlar: 
 - Aynı kullanıcı adı ile kullanıcı tanımı yapılamaz. ✓
-- Kullanıcı girişi kullanıcı adı & şifre kombinasyonu ile yapılır. (security) *
+- Kullanıcı girişi kullanıcı adı & şifre kombinasyonu ile yapılır. (security) ✓*
 - Ürün türü, fiyatı, adı gibi alanlar boş olamaz. ✓ (ürün fieldları boş gelince 400 atıyor, kontrolü olmasına rağmen) *
 - Ürün fiyatı sıfır ya da negatif olamaz. ✓
 - KDV oranı negatif olamaz. ✓
 > Authentication:
-- Güvenli endpointler kullanınız. (jwt, bearer vs. ) (security) *
+- Güvenli endpointler kullanınız. (jwt, bearer vs. ) (security) ✓
 > Response:
 - Başarılı ve başarısız responselar için modeller tanımlayın ve bunları kullanın. ✓
 > Dökümantasyon:
@@ -59,7 +59,7 @@ changing the source code (for the other option creating an enum inside the Produ
 - It was not possible to change all of the VAT-rates of the registered products.  
 - In my implementation, 2 rates are stored. Price with and without VAT.  
 - If you update the product with its own values(without changing fields),
-- the current value is drawn from the VAT rate table and the new price gets calculated by VAT-free price.  
+the current value is drawn from the VAT rate table and the new price gets calculated by VAT-free price.    
   
 - I implemented soft delete(cancel) for Users table because users often comeback to apps after deleting their accounts
 and users data might be useful for data science(in the future).

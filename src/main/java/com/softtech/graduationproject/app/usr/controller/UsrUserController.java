@@ -30,9 +30,9 @@ public class UsrUserController {
 
     )
     @GetMapping
-    public ResponseEntity<RestResponse<List<UsrUserDto>>> findAll(){
+    public ResponseEntity<RestResponse<List<UsrUserDto>>> findAllUsers(){
 
-        List<UsrUserDto> usrUserDtoList = usrUserService.findAll();
+        List<UsrUserDto> usrUserDtoList = usrUserService.findAllUsers();
 
         return ResponseEntity.ok(RestResponse.of(usrUserDtoList));
     }
@@ -43,9 +43,9 @@ public class UsrUserController {
             description = "Gets a user by id (even if it is passive)."
     )
     @GetMapping("/{id}")
-    public ResponseEntity<RestResponse<UsrUserFindByIdRequestDto>> findById(@PathVariable Long id){
+    public ResponseEntity<RestResponse<UsrUserFindByIdRequestDto>> findUserById(@PathVariable Long id){
 
-        UsrUserFindByIdRequestDto usrUserFindByIdRequestDto = usrUserService.findById(id);
+        UsrUserFindByIdRequestDto usrUserFindByIdRequestDto = usrUserService.findUserById(id);
 
         return ResponseEntity.ok(RestResponse.of(usrUserFindByIdRequestDto));
     }
@@ -55,10 +55,10 @@ public class UsrUserController {
             summary = "Save a user",
             description = "Saves a new user"
     )
-    @PostMapping("/save")
-    public ResponseEntity<RestResponse<MappingJacksonValue>> save(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
+    @PostMapping("/save-user")
+    public ResponseEntity<RestResponse<MappingJacksonValue>> saveUser(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
 
-        UsrUserDto usrUserDto = usrUserService.save(usrUserSaveRequestDto);
+        UsrUserDto usrUserDto = usrUserService.saveUser(usrUserSaveRequestDto);
 
         MappingJacksonValue mappingJacksonValue = createLinksForSave(usrUserDto);
 
@@ -70,11 +70,11 @@ public class UsrUserController {
 
         WebMvcLinkBuilder linkGet = WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(
-                        this.getClass()).findById(usrUserDto.getId()));
+                        this.getClass()).findUserById(usrUserDto.getId()));
 
         WebMvcLinkBuilder linkDelete = WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(
-                        this.getClass()).cancel(usrUserDto.getId()));
+                        this.getClass()).cancelUser(usrUserDto.getId()));
 
         EntityModel<UsrUserDto> entityModel = EntityModel.of(usrUserDto);
 
@@ -92,10 +92,10 @@ public class UsrUserController {
             summary = "Update a user",
             description = "Updates a user's name, surname, username, and password by id"
     )
-    @PutMapping("/update")
-    public ResponseEntity<RestResponse<UsrUserDto>> update(UsrUserUpdateRequestDto usrUserUpdateRequestDto){
+    @PutMapping("/update-user")
+    public ResponseEntity<RestResponse<UsrUserDto>> updateUser(UsrUserUpdateRequestDto usrUserUpdateRequestDto){
 
-        UsrUserDto usrUserDto = usrUserService.update(usrUserUpdateRequestDto);
+        UsrUserDto usrUserDto = usrUserService.updateUser(usrUserUpdateRequestDto);
 
         return ResponseEntity.ok(RestResponse.of(usrUserDto));
 
@@ -106,10 +106,10 @@ public class UsrUserController {
             summary = "Cancel a user",
             description = "Deletes a user by canceling (setting the status type passive) by id"
     )
-    @PatchMapping("/cancel/{id}")
-    public ResponseEntity<RestResponse<?>> cancel(@PathVariable Long id){
+    @PatchMapping("/cancel-user/{id}")
+    public ResponseEntity<RestResponse<?>> cancelUser(@PathVariable Long id){
 
-        usrUserService.cancel(id);
+        usrUserService.cancelUser(id);
 
         return ResponseEntity.ok(RestResponse.empty());
     }

@@ -22,16 +22,16 @@ public class UsrUserService {
     private final UsrUserEntityService usrUserEntityService;
     private final UsrUserValidationService usrUserValidationService;
 
-    public List<UsrUserDto> findAll() {
+    public List<UsrUserDto> findAllUsers() {
 
-        List<UsrUser> usrUserList = usrUserEntityService.findAllActiveUsrUserList();
+        List<UsrUser> usrUserList = usrUserEntityService.findAllActiveUsers();
 
         List<UsrUserDto> usrUserDtoList = UsrUserMapper.INSTANCE.convertToUsrUserDtoList(usrUserList);
 
         return usrUserDtoList;
     }
 
-    public UsrUserFindByIdRequestDto findById(Long id) {
+    public UsrUserFindByIdRequestDto findUserById(Long id) {
 
         UsrUser usrUser = usrUserEntityService.getByIdWithControl(id);
 
@@ -41,7 +41,7 @@ public class UsrUserService {
         return usrUserFindByIdRequestDto;
     }
 
-    public UsrUserDto save(UsrUserSaveRequestDto usrUserSaveRequestDto){
+    public UsrUserDto saveUser(UsrUserSaveRequestDto usrUserSaveRequestDto){
 
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserSaveRequestDto);
 
@@ -55,7 +55,7 @@ public class UsrUserService {
         return usrUserDto;
     }
 
-    public UsrUserDto update(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
+    public UsrUserDto updateUser(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
 
         usrUserValidationService.controlIsUserExist(usrUserUpdateRequestDto);
 
@@ -72,7 +72,7 @@ public class UsrUserService {
     }
 
 
-    public void cancel(Long id) {
+    public void cancelUser(Long id) {
 
         UsrUser usrUser = usrUserEntityService.getByIdWithControl(id);
 

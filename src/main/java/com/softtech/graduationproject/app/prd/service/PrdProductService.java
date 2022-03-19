@@ -30,7 +30,7 @@ public class PrdProductService {
     private final PrdProductValidationService prdProductValidationService;
 
 
-    public List<PrdProductDto> findAll() {
+    public List<PrdProductDto> findAllProducts() {
 
         List<PrdProduct> prdProductList = prdProductEntityService.findAll();
 
@@ -40,7 +40,7 @@ public class PrdProductService {
     }
 
 
-    public PrdProductDto findById(Long id) {
+    public PrdProductDto findProductById(Long id) {
 
         PrdProduct prdProduct = prdProductEntityService.getByIdWithControl(id);
 
@@ -50,9 +50,9 @@ public class PrdProductService {
     }
 
 
-    public List<PrdProductDto> findByPriceInterval(BigDecimal min, BigDecimal max) {
+    public List<PrdProductDto> findProductsByPriceInterval(BigDecimal min, BigDecimal max) {
 
-        List<PrdProduct> prdProductList = prdProductEntityService.findByPriceInterval(min,max);
+        List<PrdProduct> prdProductList = prdProductEntityService.findProductsByPriceInterval(min,max);
 
         List<PrdProductDto> prdProductDtoList = PrdProductMapper.INSTANCE.convertToPrdProductDtoList(prdProductList);
 
@@ -61,14 +61,14 @@ public class PrdProductService {
     }
 
 
-    public List<PrdProductDto> findByProductType(VrtProductType vrtProductType) {
+    public List<PrdProductDto> findProductsByProductType(VrtProductType vrtProductType) {
 
-         VrtVatRate vrtVatRate = vrtVatRateEntityService.findByProductType(vrtProductType)
+         VrtVatRate vrtVatRate = vrtVatRateEntityService.findProductsByProductType(vrtProductType)
                  .orElseThrow(()-> new ItemNotFoundException(VrtErrorMessage.VAT_RATE_NOT_FOUND));
 
          Long vrtVatRateId = vrtVatRate.getId();
 
-         List<PrdProduct> prdProductList = prdProductEntityService.findByVatRateId(vrtVatRateId);
+         List<PrdProduct> prdProductList = prdProductEntityService.findProductsByVatRateId(vrtVatRateId);
 
          List<PrdProductDto> prdProductDtoList = PrdProductMapper.INSTANCE.convertToPrdProductDtoList(prdProductList);
 
@@ -85,7 +85,7 @@ public class PrdProductService {
     }
 
 
-    public PrdProductDto save(PrdProductSaveRequestDto prdProductSaveRequestDto) {
+    public PrdProductDto saveProduct(PrdProductSaveRequestDto prdProductSaveRequestDto) {
 
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductSaveRequestDto);
 
@@ -103,7 +103,7 @@ public class PrdProductService {
     }
 
 
-    public PrdProductDto update(PrdProductUpdateRequestDto prdProductUpdateRequestDto) {
+    public PrdProductDto updateProduct(PrdProductUpdateRequestDto prdProductUpdateRequestDto) {
 
         Long id = prdProductUpdateRequestDto.getId();
         prdProductValidationService.controlIsPrdProductExist(id);
@@ -136,7 +136,7 @@ public class PrdProductService {
     }
 
 
-    public void delete(Long id) {
+    public void deleteProduct(Long id) {
 
         PrdProduct prdProduct = prdProductEntityService.getByIdWithControl(id);
 

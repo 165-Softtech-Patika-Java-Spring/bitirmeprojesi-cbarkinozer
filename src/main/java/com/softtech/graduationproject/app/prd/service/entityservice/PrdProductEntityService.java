@@ -25,7 +25,7 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public List<PrdProduct> findByPriceInterval(BigDecimal min, BigDecimal max) {
+    public List<PrdProduct> findProductsByPriceInterval(BigDecimal min, BigDecimal max) {
 
         List<PrdProduct> prdProductList = getDao().findAllByPriceBetween(min,max);
 
@@ -33,7 +33,7 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public List<PrdProduct> findByVatRateId(Long vrtVatRateId) {
+    public List<PrdProduct> findProductsByVatRateId(Long vrtVatRateId) {
 
         List<PrdProduct> prdProductList = getDao().findAllByVrtVatRateId(vrtVatRateId);
 

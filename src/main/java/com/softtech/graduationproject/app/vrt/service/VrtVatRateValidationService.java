@@ -42,7 +42,7 @@ public class VrtVatRateValidationService {
 
         VrtProductType vrtProductType = vrtVatRate.getProductType();
 
-        Optional<VrtVatRate> optionalVrtVatRate = vrtVatRateEntityService.findByProductType(vrtProductType);
+        Optional<VrtVatRate> optionalVrtVatRate = vrtVatRateEntityService.findVatRatesByProductType(vrtProductType);
 
         VrtVatRate vrtVatRateReturned=null;
         if(optionalVrtVatRate.isPresent()){
