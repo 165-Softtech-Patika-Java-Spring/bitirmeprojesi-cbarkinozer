@@ -20,9 +20,9 @@ public class VrtVatRateEntityService extends BaseEntityService<VrtVatRate, VrtVa
 
     public Optional<VrtVatRate> findVatRatesByProductType(VrtProductType vrtProductType){
 
-        Optional<VrtVatRate> optionalVrtVatRate = getDao().findByProductType(vrtProductType);
+        Optional<VrtVatRate> vrtVatRateOptional = getDao().findByProductType(vrtProductType);
 
-        return optionalVrtVatRate;
+        return vrtVatRateOptional;
     }
 
 }

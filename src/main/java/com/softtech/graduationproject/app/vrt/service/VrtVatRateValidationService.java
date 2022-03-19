@@ -30,6 +30,18 @@ public class VrtVatRateValidationService {
 
     }
 
+    public void controlAreFieldsNonNull(VrtVatRate vrtVatRate){
+
+        boolean hasNullFields = vrtVatRate.getId() == null  ||
+                        vrtVatRate.getProductType() == null ||
+                        vrtVatRate.getVatRate() == null;
+
+        if(hasNullFields){
+
+            throw new IllegalFieldException(VrtErrorMessage.FIELDS_CANNOT_BE_NULL);
+        }
+    }
+
     public void controlIsVatRateNegative(VrtVatRate vrtVatRate) {
 
         if(vrtVatRate.getVatRate()<0){
@@ -44,15 +56,10 @@ public class VrtVatRateValidationService {
 
         Optional<VrtVatRate> optionalVrtVatRate = vrtVatRateEntityService.findVatRatesByProductType(vrtProductType);
 
-        VrtVatRate vrtVatRateReturned=null;
+        VrtVatRate vrtVatRateReturned;
         if(optionalVrtVatRate.isPresent()){
 
             vrtVatRateReturned = optionalVrtVatRate.get();
-
-        }
-
-        if(vrtVatRateReturned !=null){
-
             boolean didMatchedItself = didMatchedItself(vrtVatRateReturned, vrtVatRate);
 
             if(!didMatchedItself){
@@ -60,7 +67,6 @@ public class VrtVatRateValidationService {
             }
 
         }
-
     }
 
     private Boolean didMatchedItself(VrtVatRate vrtVatRateReturned, VrtVatRate vrtVatRate){

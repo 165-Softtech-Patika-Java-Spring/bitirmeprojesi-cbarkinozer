@@ -45,6 +45,7 @@ public class UsrUserService {
 
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserSaveRequestDto);
 
+        usrUserValidationService.controlAreFieldsNonNull(usrUser);
         usrUserValidationService.controlIsUsernameUnique(usrUser);
 
         usrUser.setStatusType(GenStatusType.ACTIVE);
@@ -61,6 +62,7 @@ public class UsrUserService {
 
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserUpdateRequestDto);
 
+        usrUserValidationService.controlAreFieldsNonNull(usrUser);
         usrUserValidationService.controlIsUsernameUnique(usrUser);
 
         usrUser = usrUserEntityService.save(usrUser);

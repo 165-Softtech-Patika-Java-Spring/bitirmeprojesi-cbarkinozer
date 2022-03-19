@@ -1,5 +1,6 @@
 package com.softtech.graduationproject.app.prd.service.entityservice;
 
+import com.softtech.graduationproject.app.gen.exceptions.IllegalFieldException;
 import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.gen.service.BaseEntityService;
 import com.softtech.graduationproject.app.prd.dao.PrdProductDao;
@@ -41,26 +42,13 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public Integer getVatRateByVatRateId(PrdProduct prdProduct) {
+    public PrdVatRateDto getVatRateByVatRateId(PrdProduct prdProduct) {
 
         Long vatRateId = prdProduct.getVrtVatRateId();
 
         PrdVatRateDto prdVatRateDto = getDao().getVatRateByVatRateId(vatRateId);
 
-        controlIsVatRateExist(prdVatRateDto);
-
-        Integer vatRate = prdVatRateDto.getVatRate();
-
-        return vatRate;
-    }
-
-
-    private void controlIsVatRateExist(PrdVatRateDto prdVatRateDto){
-
-        if(prdVatRateDto.getVatRate() ==null) {
-
-            throw new ItemNotFoundException(VrtErrorMessage.VAT_RATE_NOT_FOUND);
-        }
+        return prdVatRateDto;
     }
 
 

@@ -20,7 +20,7 @@ public class VrtVatRate extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="PRODUCT_TYPE",length=30,unique = true)
+    @Column(name="PRODUCT_TYPE",length=30, nullable = false, unique = true)
     private VrtProductType productType;
 
     @Column(name="VAT_RATE",nullable = false)

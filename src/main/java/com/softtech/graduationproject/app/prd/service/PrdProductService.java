@@ -2,10 +2,7 @@ package com.softtech.graduationproject.app.prd.service;
 
 import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.prd.converter.PrdProductMapper;
-import com.softtech.graduationproject.app.prd.dto.PrdProductAnalysisRequestDto;
-import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
-import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
-import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
+import com.softtech.graduationproject.app.prd.dto.*;
 import com.softtech.graduationproject.app.prd.entity.PrdProduct;
 import com.softtech.graduationproject.app.prd.service.entityservice.PrdProductEntityService;
 import com.softtech.graduationproject.app.vrt.entity.VrtVatRate;
@@ -63,7 +60,7 @@ public class PrdProductService {
 
     public List<PrdProductDto> findProductsByProductType(VrtProductType vrtProductType) {
 
-         VrtVatRate vrtVatRate = vrtVatRateEntityService.findProductsByProductType(vrtProductType)
+         VrtVatRate vrtVatRate = vrtVatRateEntityService.findVatRatesByProductType(vrtProductType)
                  .orElseThrow(()-> new ItemNotFoundException(VrtErrorMessage.VAT_RATE_NOT_FOUND));
 
          Long vrtVatRateId = vrtVatRate.getId();
@@ -125,7 +122,10 @@ public class PrdProductService {
 
     private BigDecimal calculatePrice(PrdProduct prdProduct){
 
-        double vatRate = prdProductEntityService.getVatRateByVatRateId(prdProduct);
+        PrdVatRateDto prdVatRateDto = prdProductEntityService.getVatRateByVatRateId(prdProduct);
+
+        prdProductValidationService.controlDoesVatRateExist(prdVatRateDto);
+        double vatRate = prdVatRateDto.getVatRate();
 
         BigDecimal vatFreePrice = prdProduct.getVatFreePrice();
         BigDecimal price;
