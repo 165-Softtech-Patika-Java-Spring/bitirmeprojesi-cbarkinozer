@@ -1,5 +1,6 @@
 package com.softtech.graduationproject.app.vrt.service;
 
+import com.softtech.graduationproject.app.prd.service.PrdProductService;
 import com.softtech.graduationproject.app.vrt.converter.VrtVatRateMapper;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateSaveRequestDto;
@@ -18,6 +19,8 @@ import java.util.List;
 public class VrtVatRateService {
 
     private final VrtVatRateEntityService vrtVatRateEntityService;
+    private final PrdProductService prdProductService;
+
     private final VrtVatRateValidationService vrtVatRateValidationService;
 
     public List<VrtVatRateDto> findAllVatRates() {
@@ -60,9 +63,20 @@ public class VrtVatRateService {
 
         vrtVatRate = vrtVatRateEntityService.save(vrtVatRate);
 
+        batchProductUpdate(id);
+
         VrtVatRateDto vrtVatRateDto = VrtVatRateMapper.INSTANCE.convertToVrtVatRateDto(vrtVatRate);
 
         return vrtVatRateDto;
+    }
+
+
+    private void batchProductUpdate(Long vrtVatRateId){
+
+        vrtVatRateValidationService.controlIsVrtVatRateExist(vrtVatRateId);
+
+        prdProductService.batchProductUpdate(vrtVatRateId);
+
     }
 
 

@@ -48,8 +48,24 @@ public class PrdProductValidationService {
 
         if(prdProduct.getVatFreePrice().compareTo(BigDecimal.ZERO) < 1 ){
 
-            throw new IllegalFieldException(PrdErrorMessage.FIELD_MUST_BE_POSITIVE);
+            throw new IllegalFieldException(PrdErrorMessage.PRICE_MUST_BE_POSITIVE);
         }
+    }
+
+    public void controlIsPricePositive(BigDecimal price){
+
+        if(price.compareTo(BigDecimal.ZERO) < 1 ){
+
+            throw new IllegalFieldException(PrdErrorMessage.PRICE_MUST_BE_POSITIVE);
+        }
+    }
+
+    public void controlIsPriceNull(BigDecimal price) {
+
+        if(price == null){
+            throw new IllegalFieldException(PrdErrorMessage.PRICE_CANNOT_BE_NULL);
+        }
+
     }
 
 

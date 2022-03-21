@@ -122,17 +122,40 @@ public class PrdProductService {
 
     private BigDecimal calculatePrice(PrdProduct prdProduct){
 
-        PrdVatRateDto prdVatRateDto = prdProductEntityService.getVatRateByVatRateId(prdProduct);
+        Long vrtVatRateId = prdProduct.getVrtVatRateId();
 
-        prdProductValidationService.controlDoesVatRateExist(prdVatRateDto);
-        double vatRate = prdVatRateDto.getVatRate();
+        Integer vatRateInt = prdProductEntityService.getVatRateByVatRateId(vrtVatRateId);
+
+        Double vatRate = Double.valueOf(vatRateInt);
 
         BigDecimal vatFreePrice = prdProduct.getVatFreePrice();
-        BigDecimal price;
 
-        price = vatFreePrice.add(vatFreePrice.multiply(BigDecimal.valueOf(vatRate/100)));
+        prdProductValidationService.controlIsPriceNull(vatFreePrice);
+
+        BigDecimal price = vatFreePrice.add(vatFreePrice.multiply(BigDecimal.valueOf(vatRate/100)));
+
+        prdProductValidationService.controlIsPricePositive(price);
 
         return price;
+    }
+
+    public void batchProductUpdate(Long vrtVatRateId){
+
+        Integer vatRate = prdProductEntityService.getVatRateByVatRateId(vrtVatRateId);
+
+        List<PrdProduct> prdProductList = prdProductEntityService.findProductsByVatRateId(vrtVatRateId);
+
+        for(PrdProduct prdProduct : prdProductList){
+
+            BigDecimal price = calculatePrice(prdProduct);
+            prdProduct.setPrice(price);
+
+            prdProductValidationService.controlAreFieldsNonNull(prdProduct);
+            prdProductValidationService.controlIsPricePositive(prdProduct);
+
+            prdProductEntityService.save(prdProduct);
+        }
+
     }
 
 

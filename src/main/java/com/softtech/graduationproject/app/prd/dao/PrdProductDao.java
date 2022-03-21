@@ -23,14 +23,13 @@ public interface PrdProductDao extends JpaRepository<PrdProduct,Long> {
 
 
     @Query(
-            " select new com.softtech.graduationproject.app.prd.dto.PrdVatRateDto( " +
-                    "vrt.id, vrt.vatRate " +
-                    " ) " +
+            " select " +
+                    "vrt.vatRate "+
                     " from PrdProduct prd left join VrtVatRate vrt on prd.vrtVatRateId = vrt.id " +
                     " left join VrtVatRate  vrtVatRate on prd.vrtVatRateId = vrt.id " +
                     "where prd.vrtVatRateId = :vatRateId "
     )
-    PrdVatRateDto getVatRateByVatRateId(@Param("vatRateId") Long vatRateId);
+    Integer getVatRateByVatRateId(@Param("vatRateId") Long vatRateId);
 
 
     @Query(

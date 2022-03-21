@@ -1,19 +1,14 @@
 package com.softtech.graduationproject.app.prd.service.entityservice;
 
-import com.softtech.graduationproject.app.gen.exceptions.IllegalFieldException;
-import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.gen.service.BaseEntityService;
 import com.softtech.graduationproject.app.prd.dao.PrdProductDao;
 import com.softtech.graduationproject.app.prd.dto.PrdProductAnalysisRequestDto;
-import com.softtech.graduationproject.app.prd.dto.PrdVatRateDto;
 import com.softtech.graduationproject.app.prd.entity.PrdProduct;
-import com.softtech.graduationproject.app.vrt.enums.VrtErrorMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -42,13 +37,11 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public PrdVatRateDto getVatRateByVatRateId(PrdProduct prdProduct) {
+    public Integer getVatRateByVatRateId(Long vrtVatRateId) {
 
-        Long vatRateId = prdProduct.getVrtVatRateId();
+        Integer vatRate = getDao().getVatRateByVatRateId(vrtVatRateId);
 
-        PrdVatRateDto prdVatRateDto = getDao().getVatRateByVatRateId(vatRateId);
-
-        return prdVatRateDto;
+        return vatRate;
     }
 
 
