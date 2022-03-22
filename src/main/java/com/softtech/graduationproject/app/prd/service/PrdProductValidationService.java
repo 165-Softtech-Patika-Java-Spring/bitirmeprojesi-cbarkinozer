@@ -78,4 +78,9 @@ public class PrdProductValidationService {
     }
 
 
+    public void controlIsParameterMinIsLargerThanMax(BigDecimal min, BigDecimal max) {
+        if(min.compareTo(max) > 0){
+            throw new IllegalFieldException(PrdErrorMessage.PARAMETER_MIN_CANNOT_BE_LARGER_THAN_MAX);
+        }
+    }
 }

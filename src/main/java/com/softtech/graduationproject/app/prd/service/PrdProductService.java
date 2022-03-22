@@ -49,6 +49,8 @@ public class PrdProductService {
 
     public List<PrdProductDto> findProductsByPriceInterval(BigDecimal min, BigDecimal max) {
 
+        prdProductValidationService.controlIsParameterMinIsLargerThanMax(min,max);
+
         List<PrdProduct> prdProductList = prdProductEntityService.findProductsByPriceInterval(min,max);
 
         List<PrdProductDto> prdProductDtoList = PrdProductMapper.INSTANCE.convertToPrdProductDtoList(prdProductList);

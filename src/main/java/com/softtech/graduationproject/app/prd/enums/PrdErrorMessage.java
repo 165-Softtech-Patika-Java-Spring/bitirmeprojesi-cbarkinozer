@@ -9,7 +9,8 @@ public enum PrdErrorMessage implements BaseErrorMessage {
     FIELD_MUST_BE_POSITIVE("Entered field must be positive!"),
     VAT_FREE_PRICE_CANNOT_BE_NULL("VAT free price cannot be null!"),
     PRICE_MUST_BE_POSITIVE("Price must be positive!"),
-    PRICE_CANNOT_BE_NULL("Price cannot be null!")
+    PRICE_CANNOT_BE_NULL("Price cannot be null!"),
+    PARAMETER_MIN_CANNOT_BE_LARGER_THAN_MAX("Parameter min cannot be larger than max!")
     ;
 
     private String message;
