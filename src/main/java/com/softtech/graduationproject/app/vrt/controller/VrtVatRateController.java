@@ -6,6 +6,9 @@ import com.softtech.graduationproject.app.vrt.dto.VrtVatRateSaveRequestDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateUpdateRequestDto;
 import com.softtech.graduationproject.app.vrt.service.VrtVatRateService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -39,7 +42,29 @@ public class VrtVatRateController {
     @Operation(
             tags="VAT Rate Controller",
             summary = "Save a VAT rate",
-            description = "Saves a VAT rate. productType: FOOD, STATIONARY, CLOTHING, TECHNOLOGY, CLEANING, OTHER."
+            description = "Saves a VAT rate.\n productType: FOOD, STATIONARY, CLOTHING, TECHNOLOGY, CLEANING, OTHER.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Customers",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = VrtVatRateSaveRequestDto.class
+                                    ),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "new VAT rate",
+                                                    summary = "New VAT rate example",
+                                                    description = "Complete request with all available fields for VAT rate",
+                                                    value = "{\n" +
+                                                            "  \"productType\": \"FOOD\",\n" +
+                                                            "  \"vatRate\": 1,\n" +
+                                                            "}"
+                                            )
+                                    }
+                            ),
+                    }
+            )
     )
     @PostMapping("/save-vat-rate")
     public ResponseEntity<RestResponse<MappingJacksonValue>> saveVatRate(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){

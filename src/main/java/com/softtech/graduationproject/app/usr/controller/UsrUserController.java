@@ -7,6 +7,9 @@ import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
 import com.softtech.graduationproject.app.usr.dto.UsrUserUpdateRequestDto;
 import com.softtech.graduationproject.app.usr.service.UsrUserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -23,6 +26,7 @@ public class UsrUserController {
 
     private final UsrUserService usrUserService;
 
+
     @Operation(
             tags = "User Controller",
             summary = "All users",
@@ -37,6 +41,7 @@ public class UsrUserController {
         return ResponseEntity.ok(RestResponse.of(usrUserDtoList));
     }
 
+
     @Operation(
             tags = "User Controller",
             summary = "Get a user",
@@ -50,10 +55,35 @@ public class UsrUserController {
         return ResponseEntity.ok(RestResponse.of(usrUserFindByIdRequestDto));
     }
 
+
     @Operation(
             tags="User Controller",
             summary = "Save a user",
-            description = "Saves a new user"
+            description = "Saves a new user",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Customers",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = UsrUserSaveRequestDto.class
+                                    ),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "new user",
+                                                    summary = "New User Example",
+                                                    description = "Complete request with all available fields for user",
+                                                    value = "{\n" +
+                                                            "  \"name\": \"john\",\n" +
+                                                            "  \"surname\": \"smith\",\n" +
+                                                            "  \"username\": \"john_smith\",\n" +
+                                                            "  \"password\": \"J.s_1234\"\n" +
+                                                            "}"
+                                            )
+                                    }
+                            ),
+                    }
+            )
     )
     @PostMapping("/save-user")
     public ResponseEntity<RestResponse<MappingJacksonValue>> saveUser(@RequestBody UsrUserSaveRequestDto usrUserSaveRequestDto){
@@ -66,7 +96,7 @@ public class UsrUserController {
 
     }
 
-    public MappingJacksonValue createLinksForSave(UsrUserDto usrUserDto){
+    private MappingJacksonValue createLinksForSave(UsrUserDto usrUserDto){
 
         WebMvcLinkBuilder linkGet = WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(
