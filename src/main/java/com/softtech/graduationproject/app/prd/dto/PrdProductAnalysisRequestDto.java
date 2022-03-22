@@ -2,6 +2,7 @@ package com.softtech.graduationproject.app.prd.dto;
 
 import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
