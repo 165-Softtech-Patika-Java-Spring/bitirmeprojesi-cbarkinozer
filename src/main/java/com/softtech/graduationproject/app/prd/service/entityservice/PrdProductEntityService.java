@@ -38,14 +38,6 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public Integer getVatRateByVatRateId(Long vrtVatRateId) {
-
-        Integer vatRate = getDao().getVatRateByVatRateId(vrtVatRateId);
-
-        return vatRate;
-    }
-
-
     public PrdProductAnalysisRequestDto getProductAnalysis() {
 
         PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = getDao().getProductAnalysis();

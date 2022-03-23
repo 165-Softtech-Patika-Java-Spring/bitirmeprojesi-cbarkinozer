@@ -25,4 +25,11 @@ public class VrtVatRateEntityService extends BaseEntityService<VrtVatRate, VrtVa
         return vrtVatRateOptional;
     }
 
+    public Optional<VrtVatRate> findVrtVatRateById(Long id){
+
+        Optional<VrtVatRate> vrtVatRateOptional = getDao().findVrtVatRateById(id);
+
+        return vrtVatRateOptional;
+    }
+
 }

@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface VrtVatRateDao extends JpaRepository<VrtVatRate,Long> {
 
     Optional<VrtVatRate> findByProductType(VrtProductType vrtProductType);
+
+    Optional<VrtVatRate> findVrtVatRateById(Long id);
 }

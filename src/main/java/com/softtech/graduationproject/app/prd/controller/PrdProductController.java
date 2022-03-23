@@ -6,6 +6,8 @@ import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
 import com.softtech.graduationproject.app.prd.service.PrdProductService;
+import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
+import com.softtech.graduationproject.app.vrt.dto.VrtVatRateSaveRequestDto;
 import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -104,31 +106,7 @@ public class PrdProductController {
     @Operation(
             tags="Product Controller",
             summary = "Save a product",
-            description = "Saves a new product",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Customers",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(
-                                            implementation = PrdProductSaveRequestDto.class
-                                    ),
-                                    examples = {
-                                            @ExampleObject(
-                                                    name = "new product",
-                                                    summary = "New Product Example",
-                                                    description = "Complete request with all available fields for products",
-                                                    value = "{\n" +
-                                                            "  \"usrUserId\": 1,\n" +
-                                                            "  \"vrtVatRateId\": 1,\n" +
-                                                            "  \"name\": \"Beef Cubed Package kg\",\n" +
-                                                            "  \"vatFreePrice\": 100,\n" +
-                                                            "}"
-                                            )
-                                    }
-                            ),
-                    }
-            )
+            description = "Saves a product."
     )
     @PostMapping("/save-product")
     public ResponseEntity<RestResponse<MappingJacksonValue>> saveProduct(@RequestBody PrdProductSaveRequestDto prdProductSaveRequestDto){

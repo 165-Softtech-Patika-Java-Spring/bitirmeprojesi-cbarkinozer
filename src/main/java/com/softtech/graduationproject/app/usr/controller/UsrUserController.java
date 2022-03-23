@@ -61,7 +61,7 @@ public class UsrUserController {
             summary = "Save a user",
             description = "Saves a new user",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Customers",
+                    description = "Users",
                     content = {
                             @Content(
                                     mediaType = "application/json",

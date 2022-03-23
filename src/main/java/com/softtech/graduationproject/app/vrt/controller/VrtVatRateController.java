@@ -42,9 +42,9 @@ public class VrtVatRateController {
     @Operation(
             tags="VAT Rate Controller",
             summary = "Save a VAT rate",
-            description = "Saves a VAT rate.\n productType: FOOD, STATIONARY, CLOTHING, TECHNOLOGY, CLEANING, OTHER.",
+            description = "Saves a VAT rate. productType: FOOD, STATIONARY, CLOTHING, TECHNOLOGY, CLEANING, OTHER.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Customers",
+                    description = "VAT rates",
                     content = {
                             @Content(
                                     mediaType = "application/json",

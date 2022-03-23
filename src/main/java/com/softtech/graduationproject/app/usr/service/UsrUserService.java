@@ -74,6 +74,7 @@ public class UsrUserService {
         usrUserValidationService.controlAreFieldsNonNull(usrUser);
         usrUserValidationService.controlIsUsernameUnique(usrUser);
 
+        usrUser.setStatusType(GenStatusType.ACTIVE);
         usrUser = usrUserEntityService.save(usrUser);
 
         UsrUserDto usrUserDto = UsrUserMapper.INSTANCE.convertToUsrUserDto(usrUser);
