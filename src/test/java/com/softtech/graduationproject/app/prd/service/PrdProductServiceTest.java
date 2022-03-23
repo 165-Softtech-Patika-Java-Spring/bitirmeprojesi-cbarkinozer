@@ -109,6 +109,7 @@ class PrdProductServiceTest {
         BigDecimal min = BigDecimal.valueOf(1);
         BigDecimal max = BigDecimal.valueOf(2);
 
+        doNothing().when(prdProductValidationService).controlIsParameterMinIsLargerThanMax(min,max);
         when(prdProductEntityService.findProductsByPriceInterval(min,max)).thenReturn(prdProductList);
 
         List<PrdProductDto> result = prdProductService.findProductsByPriceInterval(min,max);
@@ -125,6 +126,7 @@ class PrdProductServiceTest {
         BigDecimal min = BigDecimal.valueOf(1);
         BigDecimal max = BigDecimal.valueOf(2);
 
+        doNothing().when(prdProductValidationService).controlIsParameterMinIsLargerThanMax(min,max);
         when(prdProductEntityService.findProductsByPriceInterval(min,max)).thenReturn(prdProductList);
 
         List<PrdProductDto> result = prdProductService.findProductsByPriceInterval(min,max);
@@ -138,11 +140,9 @@ class PrdProductServiceTest {
         BigDecimal min = BigDecimal.valueOf(2);
         BigDecimal max = BigDecimal.valueOf(1);
 
-        when(prdProductEntityService.findProductsByPriceInterval(min,max)).thenThrow(IllegalFieldException.class);
+        doThrow(IllegalFieldException.class).when(prdProductValidationService).controlIsParameterMinIsLargerThanMax(min,max);
 
         assertThrows(IllegalFieldException.class, () -> prdProductService.findProductsByPriceInterval(min,max));
-
-        verify(prdProductEntityService).findProductsByPriceInterval(min,max);
     }
 
     @Test
@@ -157,6 +157,7 @@ class PrdProductServiceTest {
         BigDecimal min = BigDecimal.valueOf(1);
         BigDecimal max = BigDecimal.valueOf(1);
 
+        doNothing().when(prdProductValidationService).controlIsParameterMinIsLargerThanMax(min,max);
         when(prdProductEntityService.findProductsByPriceInterval(min,max)).thenReturn(prdProductList);
 
         List<PrdProductDto> result = prdProductService.findProductsByPriceInterval(min,max);
@@ -223,8 +224,6 @@ class PrdProductServiceTest {
         PrdProduct prdProduct = mock(PrdProduct.class);
 
         when(prdProduct.getId()).thenReturn(1L);
-        when(prdProduct.getVrtVatRateId()).thenReturn(1L);
-        when(prdProduct.getUsrUserId()).thenReturn(1L);
 
         when(prdProductEntityService.save(any())).thenReturn(prdProduct);
 
@@ -236,8 +235,12 @@ class PrdProductServiceTest {
     @Test
     void dontSaveProduct_WhenParameter_IsNull() {
 
-        assertThrows(NullPointerException.class, () -> prdProductService.saveProduct(null));
+        PrdProductSaveRequestDto prdProductSaveRequestDto = null;
 
+        doThrow(IllegalFieldException.class).when(prdProductValidationService)
+                                            .controlIsParameterNull(prdProductSaveRequestDto);
+
+        assertThrows(IllegalFieldException.class, () -> prdProductService.saveProduct(null));
     }
 
     @Test
@@ -249,7 +252,8 @@ class PrdProductServiceTest {
         PrdProduct prdProduct = mock(PrdProduct.class);
         when(prdProduct.getId()).thenReturn(id);
 
-        
+        doNothing().when(prdProductValidationService).controlIsPrdProductExist(anyLong());
+
         when(prdProductEntityService.save(any())).thenReturn(prdProduct);
 
         PrdProductDto prdProductDto = prdProductService.updateProduct(prdProductUpdateRequestDto);

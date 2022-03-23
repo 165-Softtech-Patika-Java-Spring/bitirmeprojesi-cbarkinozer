@@ -6,10 +6,15 @@ public enum PrdErrorMessage implements BaseErrorMessage {
 
     PRODUCT_NOT_FOUND("Product not found!"),
     FIELD_CANNOT_BE_NULL("Entered field cannot be null!"),
-    FIELD_MUST_BE_POSITIVE("Entered field must be positive!"),
+
     VAT_FREE_PRICE_CANNOT_BE_NULL("VAT free price cannot be null!"),
-    PRICE_MUST_BE_POSITIVE("Price must be positive!"),
     PRICE_CANNOT_BE_NULL("Price cannot be null!"),
+    PRODUCT_TYPE_CANNOT_BE_NULL("Product type cannot be null!"),
+    ID_VALUES_CANNOT_BE_NULL("Id values cannot be null!"),
+
+    PRICE_MUST_BE_POSITIVE("Price must be positive!"),
+    FIELD_MUST_BE_POSITIVE("Entered field must be positive!"),
+
     PARAMETER_MIN_CANNOT_BE_LARGER_THAN_MAX("Parameter min cannot be larger than max!")
     ;
 

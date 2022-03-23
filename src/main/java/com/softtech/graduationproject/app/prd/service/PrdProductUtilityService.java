@@ -16,7 +16,7 @@ public class PrdProductUtilityService {
     private final PrdProductEntityService prdProductEntityService;
     private final PrdProductValidationService prdProductValidationService;
 
-    public BigDecimal calculatePrice(PrdProduct prdProduct){
+    public BigDecimal calculatePriceWithControl(PrdProduct prdProduct){
 
         Long vrtVatRateId = prdProduct.getVrtVatRateId();
 
