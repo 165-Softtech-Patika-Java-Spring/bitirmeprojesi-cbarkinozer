@@ -38,9 +38,9 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public PrdProductAnalysisRequestDto getProductAnalysis() {
+    public PrdProductAnalysisRequestDto getProductAnalysis(Long vatRateId) {
 
-        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = getDao().getProductAnalysis();
+        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = getDao().getProductAnalysis(vatRateId);
 
         return prdProductAnalysisRequestDto;
     }

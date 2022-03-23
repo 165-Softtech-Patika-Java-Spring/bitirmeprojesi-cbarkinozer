@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -79,11 +80,24 @@ public class PrdProductService {
     }
 
 
-    public PrdProductAnalysisRequestDto getProductAnalysis() {
+    public List<PrdProductAnalysisRequestDto> getProductAnalysis() {
 
-        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = prdProductEntityService.getProductAnalysis();
+        List<VrtVatRate> vrtVatRateList = vrtVatRateEntityService.findAll();
 
-        return prdProductAnalysisRequestDto;
+        List<PrdProductAnalysisRequestDto> prdProductAnalysisRequestDtoList = new ArrayList<>();
+
+        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto;
+
+        for(VrtVatRate vrtVatRate: vrtVatRateList){
+
+            Long vrtVatRateId = vrtVatRate.getId();
+
+            prdProductAnalysisRequestDto = prdProductEntityService.getProductAnalysis(vrtVatRateId);
+
+            prdProductAnalysisRequestDtoList.add(prdProductAnalysisRequestDto);
+        }
+
+        return prdProductAnalysisRequestDtoList;
     }
 
 

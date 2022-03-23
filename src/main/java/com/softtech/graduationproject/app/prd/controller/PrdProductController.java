@@ -95,11 +95,11 @@ public class PrdProductController {
                     "count of products and VAT rate by product type."
     )
     @GetMapping("/get-product-analysis")
-    public ResponseEntity<RestResponse<PrdProductAnalysisRequestDto>> getProductAnalysis(){
+    public ResponseEntity<RestResponse<List<PrdProductAnalysisRequestDto>>> getProductAnalysis(){
 
-        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = prdProductService.getProductAnalysis();
+        List<PrdProductAnalysisRequestDto> prdProductAnalysisRequestDtoList = prdProductService.getProductAnalysis();
 
-        return ResponseEntity.ok(RestResponse.of(prdProductAnalysisRequestDto));
+        return ResponseEntity.ok(RestResponse.of(prdProductAnalysisRequestDtoList));
     }
 
 

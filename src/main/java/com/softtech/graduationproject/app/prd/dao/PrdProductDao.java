@@ -29,6 +29,6 @@ public interface PrdProductDao extends JpaRepository<PrdProduct,Long> {
                     " left join VrtVatRate  vrtVatRate on prd.vrtVatRateId = vrt.id " +
                     "where prd.vrtVatRateId = :vatRateId "
     )
-    PrdProductAnalysisRequestDto getProductAnalysis();
+    PrdProductAnalysisRequestDto getProductAnalysis(@Param("vatRateId") Long vatRateId);
 
 }
