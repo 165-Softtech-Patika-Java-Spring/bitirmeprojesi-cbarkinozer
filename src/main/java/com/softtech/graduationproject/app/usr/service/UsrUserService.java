@@ -25,6 +25,7 @@ public class UsrUserService {
 
     private final PasswordEncoder passwordEncoder;
 
+
     public List<UsrUserDto> findAllUsers() {
 
         List<UsrUser> usrUserList = usrUserEntityService.findAllActiveUsers();
@@ -64,7 +65,9 @@ public class UsrUserService {
 
     public UsrUserDto updateUser(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
 
-        usrUserValidationService.controlIsUserExist(usrUserUpdateRequestDto);
+        Long id = usrUserUpdateRequestDto.getId();
+
+        usrUserValidationService.controlIsUserExist(id);
 
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserUpdateRequestDto);
 

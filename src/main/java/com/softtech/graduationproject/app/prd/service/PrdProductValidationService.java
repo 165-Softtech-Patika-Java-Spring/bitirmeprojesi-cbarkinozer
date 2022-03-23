@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Transactional
@@ -120,4 +121,11 @@ public class PrdProductValidationService {
 
     }
 
+    public void controlIsListNull(List<PrdProduct> prdProductList) {
+
+        if(prdProductList == null){
+            throw new ItemNotFoundException(PrdErrorMessage.PRODUCT_NOT_FOUND);
+        }
+
+    }
 }

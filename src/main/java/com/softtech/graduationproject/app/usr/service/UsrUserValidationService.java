@@ -23,9 +23,7 @@ public class UsrUserValidationService {
     private final UsrUserEntityService usrUserEntityService;
 
 
-    public void controlIsUserExist(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
-
-        Long id = usrUserUpdateRequestDto.getId();
+    public void controlIsUserExist(Long id) {
 
         boolean isExist = usrUserEntityService.existsById(id);
 

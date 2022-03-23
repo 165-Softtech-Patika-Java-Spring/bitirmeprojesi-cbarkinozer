@@ -134,12 +134,19 @@ public class PrdProductService {
 
         List<PrdProduct> prdProductList = prdProductEntityService.findProductsByVatRateId(vrtVatRateId);
 
-        for(PrdProduct prdProduct : prdProductList){
+        prdProductValidationService.controlIsListNull(prdProductList);
 
-            BigDecimal price = prdProductUtilityService.calculatePriceWithControl(prdProduct);
-            prdProduct.setPrice(price);
+        if(!prdProductList.isEmpty()){
 
-            prdProductEntityService.save(prdProduct);
+            for(PrdProduct prdProduct : prdProductList){
+
+                BigDecimal price = prdProductUtilityService.calculatePriceWithControl(prdProduct);
+                prdProduct.setPrice(price);
+
+                prdProductEntityService.save(prdProduct);
+
+            }
+
         }
 
     }

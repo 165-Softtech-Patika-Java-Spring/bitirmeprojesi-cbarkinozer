@@ -275,10 +275,34 @@ class PrdProductServiceTest {
 
     @Test
     void batchProductUpdate() {
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+        List<PrdProduct> prdProductList = new ArrayList<>();
+        prdProductList.add(prdProduct);
+
+        when(prdProductEntityService.findProductsByVatRateId(prdProduct.getVrtVatRateId()))
+                .thenReturn(prdProductList);
+
+        when(prdProductEntityService.save(prdProduct)).thenReturn(prdProduct);
+
+        verify(prdProductEntityService).save(prdProduct);
     }
 
     @Test
-    void dontBatchProductUpdate_WhenProduct() {
+    void dontBatchProductUpdate_WhenProduct_DoesNotExist() {
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+        List<PrdProduct> prdProductList = new ArrayList<>();
+
+        when(prdProductEntityService.findProductsByVatRateId(anyLong())).thenReturn(prdProductList);
+
+        doThrow(ItemNotFoundException.class).when(prdProductEntityService).findProductsByVatRateId(anyLong());
+
+        assertThrows(ItemNotFoundException.class, () -> prdProductService.batchProductUpdate(anyLong()));
+
+        when(prdProductEntityService.save(prdProduct)).thenReturn(prdProduct);
+
+        verify(prdProductEntityService).save(prdProduct);
     }
 
 
