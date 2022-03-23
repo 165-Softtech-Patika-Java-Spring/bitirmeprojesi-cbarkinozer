@@ -9,6 +9,7 @@ import com.softtech.graduationproject.app.usr.dto.UsrUserUpdateRequestDto;
 import com.softtech.graduationproject.app.usr.entity.UsrUser;
 import com.softtech.graduationproject.app.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,8 @@ public class UsrUserService {
 
     private final UsrUserEntityService usrUserEntityService;
     private final UsrUserValidationService usrUserValidationService;
+
+    private final PasswordEncoder passwordEncoder;
 
     public List<UsrUserDto> findAllUsers() {
 
@@ -44,6 +47,9 @@ public class UsrUserService {
     public UsrUserDto saveUser(UsrUserSaveRequestDto usrUserSaveRequestDto){
 
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUser(usrUserSaveRequestDto);
+
+        String password = passwordEncoder.encode(usrUser.getPassword());
+        usrUser.setPassword(password);
 
         usrUserValidationService.controlAreFieldsNonNull(usrUser);
         usrUserValidationService.controlIsUsernameUnique(usrUser);

@@ -32,7 +32,7 @@ public class VrtVatRateValidationService {
 
     public void controlAreFieldsNonNull(VrtVatRate vrtVatRate){
 
-        boolean hasNullFields = vrtVatRate.getId() == null  ||
+        boolean hasNullFields =
                         vrtVatRate.getProductType() == null ||
                         vrtVatRate.getVatRate() == null;
 

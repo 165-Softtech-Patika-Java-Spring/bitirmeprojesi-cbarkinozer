@@ -39,7 +39,6 @@ public class UsrUserValidationService {
     public void controlAreFieldsNonNull(UsrUser usrUser){
 
         boolean hasNullField =
-                usrUser.getId() == null         ||
                 usrUser.getName().isBlank()     ||
                 usrUser.getSurname().isBlank()  ||
                 usrUser.getUsername().isBlank() ||

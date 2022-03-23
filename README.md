@@ -10,9 +10,9 @@ kullanılarak yazılması ve isteğe bağlı olarak önyüzünün yazılması.
 
 - Kullanıcıdan kullanıcı adı, şifre, isim, soy isim bilgilerini alarak sisteme kayıt yapılır.  ✓
 - Sisteme kayıtlı kullanıcılar market ürünlerinin veri girişini yapabilir. (security) ✓
-- Ürün türlerine göre KDV oranları değişiklik göstermektedir. Bu oranlar aşağıdaki tabloda (vatRate)
-belirtilmiştir.   ✓
-- __**Zaman zaman KDV oranları değişiklik gösterebilmektedir.**__
+- Ürün türlerine göre KDV oranları değişiklik göstermektedir. Bu oranlar aşağıdaki tabloda (vatRate) ✓
+belirtilmiştir.   
+- __**Zaman zaman KDV oranları değişiklik gösterebilmektedir.**__ ✓
 
 ![Image](https://www.linkpicture.com/q/Untitled_395.png)
 
@@ -20,22 +20,22 @@ belirtilmiştir.   ✓
 - Ürün için veri girişi yapacak kullanıcı; ürünün adı, ürünün türü ve vergisiz satış fiyatı alanlarını
 doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplanarak sisteme kaydedilir. (calculatePrice) ✓*
 > **Kurallar ve gereksinimler:**
-- Sisteme yeni kullanıcı tanımlanabilir, güncellenebilir ve silinebilir. (save update delete) ✓
-- Sisteme yeni ürünler tanımlanabilir, güncellenebilir ve silinebilir. (save update delete) ✓
-- Ürünlerin fiyatları güncellenebilir. (updatePrice()) ✓
-- KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. (bulk update when vat rate update) *
+- Sisteme yeni kullanıcı tanımlanabilir, güncellenebilir ve silinebilir. (saveUser, updateUser, deleteUser) ✓
+- Sisteme yeni ürünler tanımlanabilir, güncellenebilir ve silinebilir. (saveProduct, updateProduct, deleteProduct) ✓
+- Ürünlerin fiyatları güncellenebilir. (updatePrice) ✓
+- KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. (batchUpdateProducts when updateVatRate) ✓*
 - Herhangi bir hata durumunda tüm işlemler geri alınmalıdır. (transactional) ✓
 - Tüm ürünler listelenebilmelidir. (findAllProducts) ✓
 - Belirli bir fiyat aralığındaki ürünler listelenebilmelidir. (findProductsByPriceInterval) ✓
 - Ürün türlerine göre ürünler listelenebilmelidir. (findProductsByProductType) ✓
-- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (productAnalysis query) ✓*
+- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (productAnalysis) ✓*
 
 ![Image](https://www.linkpicture.com/q/22_57.png)
 
 > Validasyonlar: 
 - Aynı kullanıcı adı ile kullanıcı tanımı yapılamaz. ✓
 - Kullanıcı girişi kullanıcı adı & şifre kombinasyonu ile yapılır. (security) ✓*
-- Ürün türü, fiyatı, adı gibi alanlar boş olamaz. ✓ (ürün fieldları boş gelince 400 atıyor, kontrolü olmasına rağmen) *
+- Ürün türü, fiyatı, adı gibi alanlar boş olamaz. ✓
 - Ürün fiyatı sıfır ya da negatif olamaz. ✓
 - KDV oranı negatif olamaz. ✓
 > Authentication:
@@ -47,9 +47,11 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 > Exception Handling:
 - Hatalı işlemler için doğru hata kodlarının dönüldüğünden emin olunuz. ✓
 > Test:
-- Unit ve integration testleri yazınız. *
+- Unit ve integration testleri yazınız. ✓
 
 ### Explanation of the Design Decisions
+
+Time spent on the project : 80+ hours.  
 
 Entity and controller design: [link]
 
@@ -69,5 +71,4 @@ I implemented hard delete for Products because I expected a high product count (
 - I also added findAll and findById endpoints to the controllers, despite the fact that they are not required,
 because I needed them while using the API.
 
-- There are two empty lines between public methods.
-- There is 1 empty line between a public method and a private method it uses.
+- I added integration tests for controllers (to control flow and API path) and unit tests for service layers by mocking.  

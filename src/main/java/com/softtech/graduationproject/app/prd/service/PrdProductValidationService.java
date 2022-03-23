@@ -32,9 +32,9 @@ public class PrdProductValidationService {
 
     public void controlAreFieldsNonNull(PrdProduct prdProduct) {
 
-        boolean hasNullField = prdProduct.getUsrUserId() == null    ||
-                          prdProduct.getVrtVatRateId() == null ||
-                          prdProduct.getName().isBlank()       ||
+        boolean hasNullField = prdProduct.getUsrUserId() == null ||
+                          prdProduct.getVrtVatRateId() == null   ||
+                          prdProduct.getName().isBlank()         ||
                           prdProduct.getVatFreePrice() == null;
 
         if(hasNullField){
