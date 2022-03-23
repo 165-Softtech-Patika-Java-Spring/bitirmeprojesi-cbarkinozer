@@ -90,8 +90,6 @@ public class PrdProductService {
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductSaveRequestDto);
 
         BigDecimal price = prdProductUtilityService.calculatePrice(prdProduct);
-
-        prdProductValidationService.controlIsPriceNull(price);
         prdProduct.setPrice(price);
 
         prdProductValidationService.controlAreFieldsNonNull(prdProduct);
@@ -113,8 +111,6 @@ public class PrdProductService {
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductUpdateRequestDto);
 
         BigDecimal price = prdProductUtilityService.calculatePrice(prdProduct);
-
-        prdProductValidationService.controlIsPriceNull(price);
         prdProduct.setPrice(price);
 
         prdProductValidationService.controlAreFieldsNonNull(prdProduct);
@@ -129,8 +125,6 @@ public class PrdProductService {
 
 
     public void batchProductUpdate(Long vrtVatRateId){
-
-        Integer vatRate = prdProductEntityService.getVatRateByVatRateId(vrtVatRateId);
 
         List<PrdProduct> prdProductList = prdProductEntityService.findProductsByVatRateId(vrtVatRateId);
 

@@ -29,7 +29,6 @@ public class PrdProductValidationService {
 
     }
 
-
     public void controlAreFieldsNonNull(PrdProduct prdProduct) {
 
         boolean hasNullField = prdProduct.getUsrUserId() == null ||

@@ -5,10 +5,10 @@ import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.prd.dto.PrdProductAnalysisRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
+import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
 import com.softtech.graduationproject.app.prd.entity.PrdProduct;
 import com.softtech.graduationproject.app.prd.service.entityservice.PrdProductEntityService;
 import com.softtech.graduationproject.app.vrt.entity.VrtVatRate;
-import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import com.softtech.graduationproject.app.vrt.service.entityservice.VrtVatRateEntityService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -234,11 +234,39 @@ class PrdProductServiceTest {
     }
 
     @Test
-    void saveProduct_WhenParameter_IsNull() {
+    void dontSaveProduct_WhenParameter_IsNull() {
+
+        assertThrows(NullPointerException.class, () -> prdProductService.saveProduct(null));
+
     }
 
     @Test
     void updateProduct() {
+
+        Long id = 1L;
+
+        PrdProductUpdateRequestDto prdProductUpdateRequestDto = mock(PrdProductUpdateRequestDto.class);
+        PrdProduct prdProduct = mock(PrdProduct.class);
+        when(prdProduct.getId()).thenReturn(id);
+
+        
+        when(prdProductEntityService.save(any())).thenReturn(prdProduct);
+
+        PrdProductDto prdProductDto = prdProductService.updateProduct(prdProductUpdateRequestDto);
+
+        assertEquals(id, prdProductDto.getId());
+    }
+
+    @Test
+    void dontUpdateProduct_WhenProduct_DoesNotExist() {
+
+        PrdProductUpdateRequestDto prdProductUpdateRequestDto = mock(PrdProductUpdateRequestDto.class);
+
+        doThrow(ItemNotFoundException.class).when(prdProductValidationService).controlIsPrdProductExist(anyLong());
+
+        assertThrows(ItemNotFoundException.class, () -> prdProductService.updateProduct(prdProductUpdateRequestDto));
+
+        verify(prdProductValidationService).controlIsPrdProductExist(anyLong());
     }
 
     @Test
@@ -246,6 +274,31 @@ class PrdProductServiceTest {
     }
 
     @Test
-    void deleteProduct() {
+    void dontBatchProductUpdate_WhenProduct() {
     }
+
+
+    @Test
+    void deleteProduct() {
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+
+        when(prdProductEntityService.getByIdWithControl(anyLong())).thenReturn(prdProduct);
+
+        prdProductService.deleteProduct(anyLong());
+
+        verify(prdProductEntityService).getByIdWithControl(anyLong());
+        verify(prdProductEntityService).delete(any());
+    }
+
+    @Test
+    void dontDeleteProduct_WhenId_DoesNotExist(){
+
+        when(prdProductEntityService.getByIdWithControl(anyLong())).thenThrow(ItemNotFoundException.class);
+
+        assertThrows(ItemNotFoundException.class, () -> prdProductService.deleteProduct(anyLong()));
+
+        verify(prdProductEntityService).getByIdWithControl(anyLong());
+    }
+
 }
