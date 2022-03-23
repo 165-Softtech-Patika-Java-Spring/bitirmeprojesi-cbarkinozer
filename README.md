@@ -34,7 +34,7 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 
 > Validasyonlar: 
 - Aynı kullanıcı adı ile kullanıcı tanımı yapılamaz. ✓
-- Kullanıcı girişi kullanıcı adı & şifre kombinasyonu ile yapılır. (security) ✓*
+- Kullanıcı girişi kullanıcı adı & şifre kombinasyonu ile yapılır. (security) ✓
 - Ürün türü, fiyatı, adı gibi alanlar boş olamaz. ✓
 - Ürün fiyatı sıfır ya da negatif olamaz. ✓
 - KDV oranı negatif olamaz. ✓

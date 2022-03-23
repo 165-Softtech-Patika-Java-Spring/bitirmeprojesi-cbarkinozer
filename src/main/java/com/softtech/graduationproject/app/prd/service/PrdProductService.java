@@ -25,6 +25,7 @@ public class PrdProductService {
     private final VrtVatRateEntityService vrtVatRateEntityService;
 
     private final PrdProductValidationService prdProductValidationService;
+    private final PrdProductUtilityService prdProductUtilityService;
 
 
     public List<PrdProductDto> findAllProducts() {
@@ -88,7 +89,9 @@ public class PrdProductService {
 
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductSaveRequestDto);
 
-        BigDecimal price = calculatePrice(prdProduct);
+        BigDecimal price = prdProductUtilityService.calculatePrice(prdProduct);
+
+        prdProductValidationService.controlIsPriceNull(price);
         prdProduct.setPrice(price);
 
         prdProductValidationService.controlAreFieldsNonNull(prdProduct);
@@ -109,7 +112,9 @@ public class PrdProductService {
 
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductUpdateRequestDto);
 
-        BigDecimal price = calculatePrice(prdProduct);
+        BigDecimal price = prdProductUtilityService.calculatePrice(prdProduct);
+
+        prdProductValidationService.controlIsPriceNull(price);
         prdProduct.setPrice(price);
 
         prdProductValidationService.controlAreFieldsNonNull(prdProduct);
@@ -122,24 +127,6 @@ public class PrdProductService {
         return prdProductDto;
     }
 
-    private BigDecimal calculatePrice(PrdProduct prdProduct){
-
-        Long vrtVatRateId = prdProduct.getVrtVatRateId();
-
-        Integer vatRateInt = prdProductEntityService.getVatRateByVatRateId(vrtVatRateId);
-
-        Double vatRate = Double.valueOf(vatRateInt);
-
-        BigDecimal vatFreePrice = prdProduct.getVatFreePrice();
-
-        prdProductValidationService.controlIsPriceNull(vatFreePrice);
-
-        BigDecimal price = vatFreePrice.add(vatFreePrice.multiply(BigDecimal.valueOf(vatRate/100)));
-
-        prdProductValidationService.controlIsPricePositive(price);
-
-        return price;
-    }
 
     public void batchProductUpdate(Long vrtVatRateId){
 
@@ -149,7 +136,7 @@ public class PrdProductService {
 
         for(PrdProduct prdProduct : prdProductList){
 
-            BigDecimal price = calculatePrice(prdProduct);
+            BigDecimal price = prdProductUtilityService.calculatePrice(prdProduct);
             prdProduct.setPrice(price);
 
             prdProductValidationService.controlAreFieldsNonNull(prdProduct);

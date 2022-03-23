@@ -2,9 +2,13 @@ package com.softtech.graduationproject.app.prd.service;
 
 import com.softtech.graduationproject.app.gen.exceptions.IllegalFieldException;
 import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
+import com.softtech.graduationproject.app.prd.dto.PrdProductAnalysisRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
+import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
 import com.softtech.graduationproject.app.prd.entity.PrdProduct;
 import com.softtech.graduationproject.app.prd.service.entityservice.PrdProductEntityService;
+import com.softtech.graduationproject.app.vrt.entity.VrtVatRate;
+import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import com.softtech.graduationproject.app.vrt.service.entityservice.VrtVatRateEntityService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -33,6 +38,9 @@ class PrdProductServiceTest {
 
     @Mock
     private PrdProductValidationService prdProductValidationService;
+
+    @Mock
+    private PrdProductUtilityService prdProductUtilityService;
 
 
     @Test
@@ -158,39 +166,86 @@ class PrdProductServiceTest {
     }
 
     @Test
-    void shouldFindProductsByProductType() {
+    void findProductsByProductType() {
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+        List<PrdProduct> prdProductList = new ArrayList<>();
+        prdProductList.add(prdProduct);
+
+        VrtVatRate vrtVatRate = mock(VrtVatRate.class);
+
+        when(vrtVatRateEntityService.findVatRatesByProductType(vrtVatRate.getProductType()))
+                .thenReturn(Optional.of(vrtVatRate));
+
+        when(prdProductEntityService.findProductsByVatRateId(vrtVatRate.getId())).thenReturn(prdProductList);
+
+        List<PrdProductDto> result = prdProductService.findProductsByProductType(vrtVatRate.getProductType());
+
+        assertEquals(1, result.size());
     }
 
     @Test
-    void shouldFindProductsByProductType_WhenProductList_IsEmpty() {
+    void findProductsByProductType_WhenProductList_IsEmpty() {
+
+        List<PrdProduct> prdProductList = new ArrayList<>();
+
+        VrtVatRate vrtVatRate = mock(VrtVatRate.class);
+
+        when(vrtVatRateEntityService.findVatRatesByProductType(vrtVatRate.getProductType()))
+                .thenReturn(Optional.of(vrtVatRate));
+
+        when(prdProductEntityService.findProductsByVatRateId(vrtVatRate.getId())).thenReturn(prdProductList);
+
+        List<PrdProductDto> result = prdProductService.findProductsByProductType(vrtVatRate.getProductType());
+
+        assertEquals(0, result.size());
     }
 
 
     @Test
-    void shouldGetProductAnalysis() {
+    void getProductAnalysis() {
+
+        PrdProductAnalysisRequestDto analysisRequestDto = mock(PrdProductAnalysisRequestDto.class);
+
+        when(prdProductEntityService.getProductAnalysis()).thenReturn(analysisRequestDto);
+
+        prdProductService.getProductAnalysis();
+
+        verify(prdProductEntityService).getProductAnalysis();
+    }
+
+
+    @Test
+    void saveProduct() {
+
+        PrdProductSaveRequestDto prdProductSaveRequestDto = mock(PrdProductSaveRequestDto.class);
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+
+        when(prdProduct.getId()).thenReturn(1L);
+        when(prdProduct.getVrtVatRateId()).thenReturn(1L);
+        when(prdProduct.getUsrUserId()).thenReturn(1L);
+
+        when(prdProductEntityService.save(any())).thenReturn(prdProduct);
+
+        PrdProductDto result = prdProductService.saveProduct(prdProductSaveRequestDto);
+
+        assertEquals(1L, result.getId());
     }
 
     @Test
-    void shouldGetProductAnalysis_WhenProductList_IsEmpty() {
+    void saveProduct_WhenParameter_IsNull() {
     }
 
     @Test
-    void shouldSaveProduct() {
+    void updateProduct() {
     }
 
     @Test
-    void shouldSaveProduct_WhenParameter_IsNull() {
+    void batchProductUpdate() {
     }
 
     @Test
-    void shouldUpdateProduct() {
-    }
-
-    @Test
-    void shouldBatchProductUpdate() {
-    }
-
-    @Test
-    void shouldDeleteProduct() {
+    void deleteProduct() {
     }
 }
