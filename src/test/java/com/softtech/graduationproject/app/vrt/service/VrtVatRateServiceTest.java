@@ -67,6 +67,16 @@ class VrtVatRateServiceTest {
     }
 
     @Test
+    void dontSaveVatRate_WhenVatRate_IsNegative(){
+
+    }
+
+    @Test
+    void dontSaveVatRate_WhenProductType_IsNotUnique(){
+
+    }
+
+    @Test
     void updateVatRate() {
 
         Long id = 1L;
@@ -82,6 +92,16 @@ class VrtVatRateServiceTest {
         VrtVatRateDto vrtVatRateDto = vrtVatRateService.updateVatRate(vrtVatRateUpdateRequestDto);
 
         assertEquals(id, vrtVatRateDto.getId());
+    }
+
+    @Test
+    void dontUpdateVatRate_WhenVatRate_IsNegative(){
+
+    }
+
+    @Test
+    void dontUpdateVatRate_WhenProductType_IsNotUnique(){
+
     }
 
     @Test

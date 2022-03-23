@@ -1,5 +1,7 @@
 package com.softtech.graduationproject.app.usr.service;
 
+import com.softtech.graduationproject.app.gen.exceptions.IllegalFieldException;
+import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.prd.dto.PrdProductDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
@@ -85,6 +87,21 @@ class UsrUserServiceTest {
     }
 
     @Test
+    void dontSaveUser_WhenUsername_IsNotUnique(){
+
+        UsrUserSaveRequestDto usrUserSaveRequestDto = mock(UsrUserSaveRequestDto.class);
+
+        UsrUser usrUser = mock(UsrUser.class);
+
+        when(usrUserEntityService.save(usrUser)).thenReturn(usrUser);
+
+        assertThrows(IllegalFieldException.class, () -> usrUserService.saveUser(usrUserSaveRequestDto));
+
+        verify(usrUserValidationService).controlIsUsernameUnique(usrUser);
+    }
+
+
+    @Test
     void updateUser() {
 
         Long id = 1L;
@@ -100,6 +117,11 @@ class UsrUserServiceTest {
         UsrUserDto usrUserDto = usrUserService.updateUser(usrUserUpdateRequestDto);
 
         assertEquals(id, usrUserDto.getId());
+    }
+
+    @Test
+    void dontUpdateUser_WhenUsername_IsNotUnique(){
+
     }
 
     @Test

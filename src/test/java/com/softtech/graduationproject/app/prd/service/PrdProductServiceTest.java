@@ -244,6 +244,17 @@ class PrdProductServiceTest {
     }
 
     @Test
+    void dontSaveProduct_WhenFields_AreNull(){
+
+
+    }
+
+    @Test
+    void dontSaveProduct_WhenPrice_IsNotPositive(){
+
+    }
+
+    @Test
     void updateProduct() {
 
         Long id = 1L;
@@ -274,35 +285,59 @@ class PrdProductServiceTest {
     }
 
     @Test
+    void dontUpdateProduct_WhenFields_AreNull(){
+
+    }
+
+    @Test
+    void dontUpdateProduct_WhenPrice_IsNotPositive(){
+
+    }
+
+    @Test
     void batchProductUpdate() {
 
+        Long vrtVatRateId = 1L;
+
+        PrdProductUpdateRequestDto prdProductUpdateRequestDto = mock(PrdProductUpdateRequestDto.class);
         PrdProduct prdProduct = mock(PrdProduct.class);
         List<PrdProduct> prdProductList = new ArrayList<>();
         prdProductList.add(prdProduct);
 
-        when(prdProductEntityService.findProductsByVatRateId(prdProduct.getVrtVatRateId()))
-                .thenReturn(prdProductList);
+        doNothing().when(prdProductValidationService).controlIsParameterNull(vrtVatRateId);
 
-        when(prdProductEntityService.save(prdProduct)).thenReturn(prdProduct);
+        when(prdProductEntityService.findProductsByVatRateId(vrtVatRateId)).thenReturn(prdProductList);
+
+        List<PrdProduct> productList = prdProductEntityService.findProductsByVatRateId(vrtVatRateId);
+
+        assertEquals(vrtVatRateId,productList.get(0).getVrtVatRateId());
+
+        doNothing().when(prdProductValidationService).controlIsListNull(productList);
 
         verify(prdProductEntityService).save(prdProduct);
+
     }
 
     @Test
     void dontBatchProductUpdate_WhenProduct_DoesNotExist() {
 
-        PrdProduct prdProduct = mock(PrdProduct.class);
         List<PrdProduct> prdProductList = new ArrayList<>();
+
+        doNothing().when(prdProductValidationService).controlIsParameterNull(anyLong());
 
         when(prdProductEntityService.findProductsByVatRateId(anyLong())).thenReturn(prdProductList);
 
-        doThrow(ItemNotFoundException.class).when(prdProductEntityService).findProductsByVatRateId(anyLong());
+        doThrow(ItemNotFoundException.class).when(prdProductValidationService).controlIsListNull(prdProductList);
 
         assertThrows(ItemNotFoundException.class, () -> prdProductService.batchProductUpdate(anyLong()));
 
-        when(prdProductEntityService.save(prdProduct)).thenReturn(prdProduct);
+        verify(prdProductValidationService).controlIsParameterNull(anyLong());
+        verify(prdProductEntityService).findProductsByVatRateId(anyLong());
+    }
 
-        verify(prdProductEntityService).save(prdProduct);
+    @Test
+    void dontBatchProductUpdate_WhenPrice_IsNotPositive(){
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.softtech.graduationproject.app.vrt.controller;
 
 import com.softtech.graduationproject.app.gen.dto.RestResponse;
+import com.softtech.graduationproject.app.usr.dto.UsrUserSaveRequestDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateSaveRequestDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateUpdateRequestDto;
@@ -42,29 +43,7 @@ public class VrtVatRateController {
     @Operation(
             tags="VAT Rate Controller",
             summary = "Save a VAT rate",
-            description = "Saves a VAT rate. productType: FOOD, STATIONARY, CLOTHING, TECHNOLOGY, CLEANING, OTHER.",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "VAT rates",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(
-                                            implementation = VrtVatRateSaveRequestDto.class
-                                    ),
-                                    examples = {
-                                            @ExampleObject(
-                                                    name = "new VAT rate",
-                                                    summary = "New VAT rate example",
-                                                    description = "Complete request with all available fields for VAT rate",
-                                                    value = "{\n" +
-                                                            "  \"productType\": \"FOOD\",\n" +
-                                                            "  \"vatRate\": 1,\n" +
-                                                            "}"
-                                            )
-                                    }
-                            ),
-                    }
-            )
+            description = "Saves a new VAT rate"
     )
     @PostMapping("/save-vat-rate")
     public ResponseEntity<RestResponse<MappingJacksonValue>> saveVatRate(VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto){

@@ -106,7 +106,7 @@ public class PrdProductController {
     @Operation(
             tags="Product Controller",
             summary = "Save a product",
-            description = "Saves a product."
+            description = "Saves a new product"
     )
     @PostMapping("/save-product")
     public ResponseEntity<RestResponse<MappingJacksonValue>> saveProduct(@RequestBody PrdProductSaveRequestDto prdProductSaveRequestDto){
