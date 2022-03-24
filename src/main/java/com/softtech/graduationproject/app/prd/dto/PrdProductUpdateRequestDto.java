@@ -1,12 +1,12 @@
 package com.softtech.graduationproject.app.prd.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
-@Builder
+@Getter
+@Setter
+@AllArgsConstructor
 public class PrdProductUpdateRequestDto {
 
     private Long id;

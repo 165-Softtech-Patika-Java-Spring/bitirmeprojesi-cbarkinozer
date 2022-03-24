@@ -1,11 +1,11 @@
 package com.softtech.graduationproject.app.vrt.dto;
 
 import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
-@Builder
+@Getter
+@Setter
+@AllArgsConstructor
 public class VrtVatRateUpdateRequestDto {
 
     private Long id;

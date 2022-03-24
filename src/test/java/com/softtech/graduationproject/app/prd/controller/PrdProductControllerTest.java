@@ -108,12 +108,8 @@ class PrdProductControllerTest extends BaseTest {
     @Test
     void saveProduct() throws Exception{
 
-        PrdProductSaveRequestDto prdProductSaveRequestDto = PrdProductSaveRequestDto.builder()
-                .usrUserId(1L)
-                .vrtVatRateId(1L)
-                .name("Beef Cube Meat Kg")
-                .vatFreePrice(BigDecimal.valueOf(100))
-                .build();
+        PrdProductSaveRequestDto prdProductSaveRequestDto =
+                new PrdProductSaveRequestDto(1L,1L,"Beef Cube Meat Kg",BigDecimal.valueOf(100));
 
 
         String content = objectMapper.writeValueAsString(prdProductSaveRequestDto);
@@ -130,13 +126,8 @@ class PrdProductControllerTest extends BaseTest {
     @Test
     void updateProduct() throws Exception {
 
-        PrdProductUpdateRequestDto prdProductUpdateRequestDto = PrdProductUpdateRequestDto.builder()
-                .id(1L)
-                .usrUserId(1L)
-                .vrtVatRateId(1L)
-                .name("Beef Cube Meat Kg")
-                .vatFreePrice(BigDecimal.valueOf(100))
-                .build();
+        PrdProductUpdateRequestDto prdProductUpdateRequestDto =
+                new PrdProductUpdateRequestDto(1L,1L,1L,"Beef Cube Meat Kg",BigDecimal.valueOf(100));
 
         String content = objectMapper.writeValueAsString(prdProductUpdateRequestDto);
 

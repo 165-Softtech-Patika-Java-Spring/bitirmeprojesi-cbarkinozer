@@ -80,11 +80,22 @@ class VrtVatRateServiceTest {
                 .controlIsVatRateNegative(vrtVatRate);
 
         assertThrows(IllegalFieldException.class,()->vrtVatRateService.saveVatRate(vrtVatRateSaveRequestDto));
+
+        verify(vrtVatRateValidationService).controlIsVatRateNegative(vrtVatRate);
     }
 
     @Test
     void dontSaveVatRate_WhenProductType_IsNotUnique(){
 
+        VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto = mock(VrtVatRateSaveRequestDto.class);
+
+        VrtVatRate vrtVatRate = mock(VrtVatRate.class);
+
+        doThrow(IllegalFieldException.class).when(vrtVatRateValidationService)
+                .controlIsProductTypeUnique(vrtVatRate);
+
+        assertThrows(IllegalFieldException.class,()->vrtVatRateService.saveVatRate(vrtVatRateSaveRequestDto));
+        verify(vrtVatRateValidationService).controlIsProductTypeUnique(vrtVatRate);
     }
 
     @Test
@@ -108,10 +119,31 @@ class VrtVatRateServiceTest {
     @Test
     void dontUpdateVatRate_WhenVatRate_IsNegative(){
 
+
+        VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto = mock(VrtVatRateUpdateRequestDto.class);
+        VrtVatRate vrtVatRate = mock(VrtVatRate.class);
+        when(vrtVatRate.getVatRate()).thenReturn(-1);
+
+        doThrow(IllegalFieldException.class).when(vrtVatRateValidationService)
+                .controlIsVatRateNegative(vrtVatRate);
+
+        assertThrows(IllegalFieldException.class,()->vrtVatRateService.updateVatRate(vrtVatRateUpdateRequestDto));
+
+        verify(vrtVatRateValidationService).controlIsVatRateNegative(vrtVatRate);
     }
 
     @Test
     void dontUpdateVatRate_WhenProductType_IsNotUnique(){
+
+        VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto = mock(VrtVatRateUpdateRequestDto.class);
+        VrtVatRate vrtVatRate = mock(VrtVatRate.class);
+
+        doThrow(IllegalFieldException.class).when(vrtVatRateValidationService)
+                .controlIsProductTypeUnique(vrtVatRate);
+
+        assertThrows(IllegalFieldException.class,()->vrtVatRateService.updateVatRate(vrtVatRateUpdateRequestDto));
+
+        verify(vrtVatRateValidationService).controlIsProductTypeUnique(vrtVatRate);
 
     }
 

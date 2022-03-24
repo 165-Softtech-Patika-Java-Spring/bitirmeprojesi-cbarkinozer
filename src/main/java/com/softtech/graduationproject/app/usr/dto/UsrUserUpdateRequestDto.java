@@ -1,10 +1,10 @@
 package com.softtech.graduationproject.app.usr.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
-@Builder
+@Getter
+@Setter
+@AllArgsConstructor
 public class UsrUserUpdateRequestDto {
 
     private Long id;

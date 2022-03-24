@@ -69,15 +69,12 @@ class UsrUserControllerTest extends BaseTest {
     @Test
     void saveUser() throws Exception {
 
-        UsrUserSaveRequestDto usrUserSaveRequestDto = UsrUserSaveRequestDto.builder()
-                .name("John")
-                .surname("Smith")
-                .username("john_smith")
-                .password("j.s_1234")
-                .build();
+
+        UsrUserSaveRequestDto userUserSaveRequestDto =
+                new UsrUserSaveRequestDto("John","Smith","smt","smt");
 
 
-        String content = objectMapper.writeValueAsString(usrUserSaveRequestDto);
+        String content = objectMapper.writeValueAsString(userUserSaveRequestDto);
 
         MvcResult result = mockMvc.perform(
                 post(BASE_PATH+"/save-user").content(content).contentType(MediaType.APPLICATION_JSON)
@@ -91,13 +88,9 @@ class UsrUserControllerTest extends BaseTest {
     @Test
     void updateUser() throws Exception{
 
-        UsrUserUpdateRequestDto usrUserUpdateRequestDto = UsrUserUpdateRequestDto.builder()
-                .id(1L)
-                .name("John")
-                .surname("Smith")
-                .username("john_smith")
-                .password("j.s_1234")
-                .build();
+        UsrUserUpdateRequestDto usrUserUpdateRequestDto =
+                new UsrUserUpdateRequestDto(1L,"John","Smith","smt","smt");
+
 
         String content = objectMapper.writeValueAsString(usrUserUpdateRequestDto);
 

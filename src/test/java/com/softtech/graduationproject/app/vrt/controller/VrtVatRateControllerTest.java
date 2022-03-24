@@ -57,11 +57,8 @@ class VrtVatRateControllerTest extends BaseTest {
     @Test
     void saveVatRate() throws Exception {
 
-        VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto = VrtVatRateSaveRequestDto.builder()
-                .productType(VrtProductType.FOOD)
-                .vatRate(1)
-                .build();
-
+        VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto
+                = new VrtVatRateSaveRequestDto(VrtProductType.FOOD,1);
 
         String content = objectMapper.writeValueAsString(vrtVatRateSaveRequestDto);
 
@@ -77,11 +74,8 @@ class VrtVatRateControllerTest extends BaseTest {
     @Test
     void updateVatRate() throws Exception {
 
-        VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto = VrtVatRateUpdateRequestDto.builder()
-                .id(1L)
-                .productType(VrtProductType.FOOD)
-                .vatRate(100)
-                .build();
+        VrtVatRateUpdateRequestDto vrtVatRateUpdateRequestDto
+                = new VrtVatRateUpdateRequestDto(1L,VrtProductType.FOOD,2);
 
         String content = objectMapper.writeValueAsString(vrtVatRateUpdateRequestDto);
 
