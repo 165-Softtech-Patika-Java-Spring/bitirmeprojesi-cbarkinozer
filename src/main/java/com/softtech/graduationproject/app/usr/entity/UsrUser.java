@@ -30,7 +30,7 @@ public class UsrUser extends BaseEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS_TYPE", length = 30)
+    @Column(name = "STATUS_TYPE", length = 30, nullable = false)
     private GenStatusType statusType;
 
 }

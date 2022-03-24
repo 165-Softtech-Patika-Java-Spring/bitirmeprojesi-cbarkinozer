@@ -18,12 +18,12 @@ belirtilmiştir.
 
 
 - Ürün için veri girişi yapacak kullanıcı; ürünün adı, ürünün türü ve vergisiz satış fiyatı alanlarını
-doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplanarak sisteme kaydedilir. (calculatePrice) ✓*
+doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplanarak sisteme kaydedilir. (calculatePrice) ✓
 > **Kurallar ve gereksinimler:**
 - Sisteme yeni kullanıcı tanımlanabilir, güncellenebilir ve silinebilir. (saveUser, updateUser, deleteUser) ✓
 - Sisteme yeni ürünler tanımlanabilir, güncellenebilir ve silinebilir. (saveProduct, updateProduct, deleteProduct) ✓
 - Ürünlerin fiyatları güncellenebilir. (updatePrice) ✓
-- KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. (batchUpdateProducts when updateVatRate) ✓*
+- KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. (batchUpdateProducts when updateVatRate) ✓
 - Herhangi bir hata durumunda tüm işlemler geri alınmalıdır. (transactional) ✓
 - Tüm ürünler listelenebilmelidir. (findAllProducts) ✓
 - Belirli bir fiyat aralığındaki ürünler listelenebilmelidir. (findProductsByPriceInterval) ✓
@@ -51,9 +51,11 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 
 ### Explanation of the Design Decisions
 
+Explanation and demonstration video : https://youtu.be/-RJEkHBWOgs
+
 Time spent on the project : 80+ hours.  
 
-Entity and controller design: [link]
+Entity and controller design: https://ibb.co/YhN70XQ
 
 - VatRate is stored in a table because I want API users to be able to specify desired VAT rates for specific products
 without changing the source code.  
@@ -66,9 +68,11 @@ The current value is derived from the VAT rate table, and the new price is compu
 - I added soft delete (cancel) to the Users table because users frequently return to apps after deleting their accounts,
 and user data may be useful for data science (in the future).
 - I implemented hard delete for the VAT table because it is very small and its data is unimportant, and
-I implemented hard delete for Products because I expected a high product count (multiple products per user), so I wanted to reduce storage and query time costs.
+I implemented hard delete for Products because I expected a high product count (multiple products per user),
+and I wanted to make queries and code simpler and faster, so I wanted to reduce storage and query time costs.  
 
 - I also added findAll and findById endpoints to the controllers, despite the fact that they are not required,
 because I needed them while using the API.
 
 - I added integration tests for controllers (to control flow and API path) and unit tests for service layers by mocking.  
+- Happy case, empty case, validations are tested.  
