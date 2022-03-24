@@ -28,7 +28,7 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 - Tüm ürünler listelenebilmelidir. (findAllProducts) ✓
 - Belirli bir fiyat aralığındaki ürünler listelenebilmelidir. (findProductsByPriceInterval) ✓
 - Ürün türlerine göre ürünler listelenebilmelidir. (findProductsByProductType) ✓
-- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (productAnalysis) ✓*
+- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir. (productAnalysis) ✓
 
 ![Image](https://www.linkpicture.com/q/22_57.png)
 
@@ -51,6 +51,7 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 
 ### Explanation of the Design Decisions
 
+All requirements are satisfied.  
 Explanation and demonstration video : https://youtu.be/4ZQT0eh_H6k  
 Time spent on the project : 80+ hours.  
 Entity and controller design: https://ibb.co/f0DBp1T  
@@ -64,4 +65,5 @@ Product table has hard delete because I expected a high product count (multiple 
 - I wanted to make queries and code simpler, faster,and I also wanted to reduce storage and query time costs.  
 - There are findAll and findById endpoints to the controllers as extra, because I needed them while using the API.
 - I added integration tests for controllers (to test the flow and API path) and unit tests for service layers by mocking.  
-- Happy case, empty case, validations, and null parameters are tested.    
+- Happy case, empty case, validations, and null parameters tests are written.   
+- Some tests are not working properly.
