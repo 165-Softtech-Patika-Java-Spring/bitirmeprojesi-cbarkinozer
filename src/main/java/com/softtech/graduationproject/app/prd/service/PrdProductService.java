@@ -82,22 +82,7 @@ public class PrdProductService {
 
     public List<PrdProductAnalysisRequestDto> getProductAnalysis() {
 
-        List<VrtVatRate> vrtVatRateList = vrtVatRateEntityService.findAll();
-
-        List<PrdProductAnalysisRequestDto> prdProductAnalysisRequestDtoList = new ArrayList<>();
-
-        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto;
-
-        prdProductValidationService.controlIsListNull(vrtVatRateList);
-
-        for(VrtVatRate vrtVatRate: vrtVatRateList){
-
-            Long vrtVatRateId = vrtVatRate.getId();
-
-            prdProductAnalysisRequestDto = prdProductEntityService.getProductAnalysis(vrtVatRateId);
-
-            prdProductAnalysisRequestDtoList.add(prdProductAnalysisRequestDto);
-        }
+        List<PrdProductAnalysisRequestDto> prdProductAnalysisRequestDtoList = prdProductEntityService.getProductAnalysis();
 
         return prdProductAnalysisRequestDtoList;
     }

@@ -38,11 +38,11 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct,PrdPro
     }
 
 
-    public PrdProductAnalysisRequestDto getProductAnalysis(Long vatRateId) {
+    public List<PrdProductAnalysisRequestDto> getProductAnalysis() {
 
-        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = getDao().getProductAnalysis(vatRateId);
+        List<PrdProductAnalysisRequestDto> prdProductAnalysisRequestDtoList = getDao().getProductAnalysis();
 
-        return prdProductAnalysisRequestDto;
+        return prdProductAnalysisRequestDtoList;
     }
 
 

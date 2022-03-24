@@ -51,28 +51,17 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 
 ### Explanation of the Design Decisions
 
-Explanation and demonstration video : https://youtu.be/-RJEkHBWOgs
-
+Explanation and demonstration video : https://youtu.be/4ZQT0eh_H6k  
 Time spent on the project : 80+ hours.  
-
-Entity and controller design: https://ibb.co/YhN70XQ
+Entity and controller design: https://ibb.co/f0DBp1T  
 
 - VatRate is stored in a table because I want API users to be able to specify desired VAT rates for specific products
 without changing the source code.  
-- If I entered the VAT rate into the product table, I'd have to do it for each product.
-And all registered products' VAT rates could not be changed.
-
-- If the product's values are changed (without changing the fields),
-The current value is derived from the VAT rate table, and the new price is computed using the VAT-free price.    
-
 - I added soft delete (cancel) to the Users table because users frequently return to apps after deleting their accounts,
-and user data may be useful for data science (in the future).
-- I implemented hard delete for the VAT table because it is very small and its data is unimportant, and
-I implemented hard delete for Products because I expected a high product count (multiple products per user),
-and I wanted to make queries and code simpler and faster, so I wanted to reduce storage and query time costs.  
-
-- I also added findAll and findById endpoints to the controllers, despite the fact that they are not required,
-because I needed them while using the API.
-
-- I added integration tests for controllers (to control flow and API path) and unit tests for service layers by mocking.  
-- Happy case, empty case, validations, null parameters are tested.  
+and user data may be useful for data science (in the future).  
+- VAT table has hard delete because it is very small and its data is unimportant, and
+Product table has hard delete because I expected a high product count (multiple products per user).  
+- I wanted to make queries and code simpler, faster,and I also wanted to reduce storage and query time costs.  
+- There are findAll and findById endpoints to the controllers as extra, because I needed them while using the API.
+- I added integration tests for controllers (to test the flow and API path) and unit tests for service layers by mocking.  
+- Happy case, empty case, validations, and null parameters are tested.    
