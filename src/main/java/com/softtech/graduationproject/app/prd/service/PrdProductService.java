@@ -88,6 +88,8 @@ public class PrdProductService {
 
         PrdProductAnalysisRequestDto prdProductAnalysisRequestDto;
 
+        prdProductValidationService.controlIsListNull(vrtVatRateList);
+
         for(VrtVatRate vrtVatRate: vrtVatRateList){
 
             Long vrtVatRateId = vrtVatRate.getId();

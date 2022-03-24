@@ -1,6 +1,7 @@
 package com.softtech.graduationproject.app.vrt.service;
 
 
+import com.softtech.graduationproject.app.gen.exceptions.IllegalFieldException;
 import com.softtech.graduationproject.app.prd.service.PrdProductService;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateDto;
 import com.softtech.graduationproject.app.vrt.dto.VrtVatRateSaveRequestDto;
@@ -69,6 +70,16 @@ class VrtVatRateServiceTest {
     @Test
     void dontSaveVatRate_WhenVatRate_IsNegative(){
 
+        VrtVatRateSaveRequestDto vrtVatRateSaveRequestDto = mock(VrtVatRateSaveRequestDto.class);
+
+        VrtVatRate vrtVatRate = mock(VrtVatRate.class);
+
+        when(vrtVatRate.getVatRate()).thenReturn(-1);
+
+        doThrow(IllegalFieldException.class).when(vrtVatRateValidationService)
+                .controlIsVatRateNegative(vrtVatRate);
+
+        assertThrows(IllegalFieldException.class,()->vrtVatRateService.saveVatRate(vrtVatRateSaveRequestDto));
     }
 
     @Test

@@ -206,13 +206,19 @@ class PrdProductServiceTest {
     @Test
     void getProductAnalysis() {
 
-        //PrdProductAnalysisRequestDto analysisRequestDto = mock(PrdProductAnalysisRequestDto.class);
+        PrdProductAnalysisRequestDto prdProductAnalysisRequestDto = mock(PrdProductAnalysisRequestDto.class);
 
-        //when(prdProductEntityService.getProductAnalysis()).thenReturn(analysisRequestDto);
+        List<VrtVatRate> vrtVatRateList = new ArrayList<>();
+        VrtVatRate vrtVatRate = mock(VrtVatRate.class);
+        vrtVatRateList.add(vrtVatRate);
 
-        //prdProductService.getProductAnalysis();
+        when(vrtVatRateEntityService.findAll()).thenReturn(vrtVatRateList);
 
-        //verify(prdProductEntityService).getProductAnalysis();
+        when(vrtVatRate.getId()).thenReturn(1L);
+
+        when(prdProductEntityService.getProductAnalysis(1L)).thenReturn(prdProductAnalysisRequestDto);
+
+        assertEquals(vrtVatRate.getProductType(),prdProductAnalysisRequestDto.getProductType());
     }
 
 
@@ -246,11 +252,38 @@ class PrdProductServiceTest {
     @Test
     void dontSaveProduct_WhenFields_AreNull(){
 
+        PrdProductSaveRequestDto prdProductSaveRequestDto = mock(PrdProductSaveRequestDto.class);
+        PrdProduct prdProduct = mock(PrdProduct.class);
 
+        doNothing().when(prdProductValidationService).controlIsParameterNull(prdProductSaveRequestDto);
+
+        doThrow(IllegalFieldException.class).when(prdProductValidationService)
+                .controlAreFieldsNonNull(prdProduct);
+
+        assertThrows(IllegalFieldException.class, () -> prdProductService.saveProduct(null));
+
+        verify(prdProductValidationService).controlAreFieldsNonNull(prdProduct);
     }
 
     @Test
     void dontSaveProduct_WhenPrice_IsNotPositive(){
+
+
+        PrdProductSaveRequestDto prdProductSaveRequestDto = mock(PrdProductSaveRequestDto.class);
+        PrdProduct prdProduct = mock(PrdProduct.class);
+
+        BigDecimal price = BigDecimal.valueOf(-1);
+        when(prdProduct.getVatFreePrice()).thenReturn(price);
+
+        doNothing().when(prdProductValidationService).controlIsParameterNull(prdProductSaveRequestDto);
+
+        doThrow(IllegalFieldException.class).when(prdProductValidationService)
+                .controlAreFieldsNonNull(prdProduct);
+
+        assertThrows(IllegalFieldException.class, () -> prdProductService.saveProduct(null));
+
+        verify(prdProductValidationService).controlAreFieldsNonNull(prdProduct);
+
 
     }
 
@@ -276,10 +309,13 @@ class PrdProductServiceTest {
     void dontUpdateProduct_WhenProduct_DoesNotExist() {
 
         PrdProductUpdateRequestDto prdProductUpdateRequestDto = mock(PrdProductUpdateRequestDto.class);
+        PrdProduct prdProduct = mock(PrdProduct.class);
 
-        doThrow(ItemNotFoundException.class).when(prdProductValidationService).controlIsPrdProductExist(anyLong());
+        doNothing().when(prdProductValidationService).controlIsPrdProductExist(anyLong());
 
-        assertThrows(ItemNotFoundException.class, () -> prdProductService.updateProduct(prdProductUpdateRequestDto));
+        doThrow(IllegalFieldException.class).when(prdProductValidationService).controlAreFieldsNonNull(prdProduct);
+
+        assertThrows(IllegalFieldException.class, () -> prdProductService.updateProduct(prdProductUpdateRequestDto));
 
         verify(prdProductValidationService).controlIsPrdProductExist(anyLong());
     }
@@ -287,10 +323,34 @@ class PrdProductServiceTest {
     @Test
     void dontUpdateProduct_WhenFields_AreNull(){
 
+        PrdProductUpdateRequestDto prdProductUpdateRequestDto = mock(PrdProductUpdateRequestDto.class);
+
+        doThrow(ItemNotFoundException.class).when(prdProductValidationService).controlIsPrdProductExist(anyLong());
+
+        assertThrows(ItemNotFoundException.class, () -> prdProductService.updateProduct(prdProductUpdateRequestDto));
+
+        verify(prdProductValidationService).controlIsPrdProductExist(anyLong());
+
     }
 
     @Test
     void dontUpdateProduct_WhenPrice_IsNotPositive(){
+
+        PrdProductUpdateRequestDto prdProductUpdateRequestDto = mock(PrdProductUpdateRequestDto.class);
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+
+        BigDecimal price = BigDecimal.valueOf(-1);
+        when(prdProduct.getVatFreePrice()).thenReturn(price);
+
+
+        doNothing().when(prdProductValidationService).controlIsPrdProductExist(anyLong());
+
+        when(prdProductUtilityService.calculatePriceWithControl(prdProduct)).thenThrow(IllegalFieldException.class);
+
+        assertThrows(IllegalFieldException.class, () -> prdProductService.updateProduct(prdProductUpdateRequestDto));
+
+        verify(prdProductValidationService).controlIsPrdProductExist(anyLong());
 
     }
 
@@ -299,7 +359,6 @@ class PrdProductServiceTest {
 
         Long vrtVatRateId = 1L;
 
-        PrdProductUpdateRequestDto prdProductUpdateRequestDto = mock(PrdProductUpdateRequestDto.class);
         PrdProduct prdProduct = mock(PrdProduct.class);
         List<PrdProduct> prdProductList = new ArrayList<>();
         prdProductList.add(prdProduct);
@@ -338,6 +397,25 @@ class PrdProductServiceTest {
     @Test
     void dontBatchProductUpdate_WhenPrice_IsNotPositive(){
 
+        Long vrtVatRateId = 1L;
+        BigDecimal price = BigDecimal.valueOf(-1);
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+        List<PrdProduct> prdProductList = new ArrayList<>();
+        prdProductList.add(prdProduct);
+
+        doNothing().when(prdProductValidationService).controlIsParameterNull(vrtVatRateId);
+
+        when(prdProductEntityService.findProductsByVatRateId(vrtVatRateId)).thenReturn(prdProductList);
+
+        doNothing().when(prdProductValidationService).controlIsParameterNull(vrtVatRateId);
+
+        doThrow(IllegalFieldException.class).when(prdProductValidationService)
+                .controlIsPricePositive(price);
+
+        assertThrows(IllegalFieldException.class, () -> prdProductService.batchProductUpdate(anyLong()));
+
+        verify(prdProductValidationService).controlIsPricePositive(price);
     }
 
 

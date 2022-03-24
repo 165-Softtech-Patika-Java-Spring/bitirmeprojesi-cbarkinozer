@@ -75,4 +75,4 @@ and I wanted to make queries and code simpler and faster, so I wanted to reduce 
 because I needed them while using the API.
 
 - I added integration tests for controllers (to control flow and API path) and unit tests for service layers by mocking.  
-- Happy case, empty case, validations are tested.  
+- Happy case, empty case, validations, null parameters are tested.  

@@ -4,11 +4,9 @@ import com.softtech.graduationproject.app.gen.exceptions.IllegalFieldException;
 import com.softtech.graduationproject.app.gen.exceptions.ItemNotFoundException;
 import com.softtech.graduationproject.app.prd.dto.PrdProductSaveRequestDto;
 import com.softtech.graduationproject.app.prd.dto.PrdProductUpdateRequestDto;
-import com.softtech.graduationproject.app.prd.dto.PrdVatRateDto;
 import com.softtech.graduationproject.app.prd.entity.PrdProduct;
 import com.softtech.graduationproject.app.prd.enums.PrdErrorMessage;
 import com.softtech.graduationproject.app.prd.service.entityservice.PrdProductEntityService;
-import com.softtech.graduationproject.app.vrt.enums.VrtErrorMessage;
 import com.softtech.graduationproject.app.vrt.enums.VrtProductType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,14 +45,6 @@ public class PrdProductValidationService {
     }
 
 
-    public void controlIsPricePositive(PrdProduct prdProduct){
-
-        if(prdProduct.getVatFreePrice().compareTo(BigDecimal.ZERO) < 1 ){
-
-            throw new IllegalFieldException(PrdErrorMessage.PRICE_MUST_BE_POSITIVE);
-        }
-    }
-
     public void controlIsPricePositive(BigDecimal price){
 
         if(price.compareTo(BigDecimal.ZERO) < 1 ){
@@ -72,21 +62,11 @@ public class PrdProductValidationService {
     }
 
 
-    public void controlDoesVatRateExist(PrdVatRateDto prdVatRateDto){
-
-        if(prdVatRateDto.getVatRate() ==null) {
-
-            throw new ItemNotFoundException(VrtErrorMessage.VAT_RATE_NOT_FOUND);
-        }
-    }
-
-
     public void controlIsParameterMinIsLargerThanMax(BigDecimal min, BigDecimal max) {
         if(min.compareTo(max) > 0){
             throw new IllegalFieldException(PrdErrorMessage.PARAMETER_MIN_CANNOT_BE_LARGER_THAN_MAX);
         }
     }
-
 
     public void controlIsParameterNull(PrdProductSaveRequestDto prdProductSaveRequestDto) {
 
@@ -95,7 +75,6 @@ public class PrdProductValidationService {
         }
 
     }
-
 
     public void controlIsParameterNull(PrdProductUpdateRequestDto prdProductUpdateRequestDto) {
 
@@ -121,11 +100,13 @@ public class PrdProductValidationService {
 
     }
 
-    public void controlIsListNull(List<PrdProduct> prdProductList) {
+    public void controlIsListNull(List<?> entityList) {
 
-        if(prdProductList == null){
+        if(entityList == null){
             throw new ItemNotFoundException(PrdErrorMessage.PRODUCT_NOT_FOUND);
         }
 
     }
+
+
 }
